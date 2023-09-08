@@ -1,0 +1,178 @@
+@import url('https://fonts.google.com/specimen/Roboto');
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.mainContainer {
+    margin-left: 260px;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    padding-top: 30px;
+}
+
+.container > div:first-child {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #E8E8E8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.h2 {
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border: 2px solid ;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    font-family: 'Roboto', sans-serif;
+}
+
+.h2:hover {
+    transform: scale(1.05);
+}
+
+.input,
+.button {
+    padding: 10px 15px;
+    margin: 5px;
+    border:  none;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+.input {
+    width: 150px;
+    border: 2px solid var(--secondary-color);
+}
+
+.button {
+    background-color: var(--highlight-color);
+    color: white;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--secondary-color);
+}
+
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.array_item,
+.array_item_marked {
+    display: inline-block;
+    border: 1px solid var(--secondary-color);
+    margin: 5px;
+    padding: 15px 25px;
+    transition: background-color 0.3s, transform 0.3s;
+    background-color: white;
+    color: var(--text-color);
+    font-size: 1.5em;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.array_item:hover, .array_item_marked:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.array_item_marked {
+    background-color: var(--highlight-color);
+    color: white;
+}
+
+.array_item_remove {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.array_item_highlight {
+    background-color: var(--secondary-color);
+    transition: background-color 1s;
+}
+
+.swap-enter,
+.swap-exit,
+.swap-exit-active {
+    position: absolute;
+    transition: transform 0.3s ease-in-out;
+}
+
+.swap-enter {
+    transform: translateY(100%);
+}
+
+.swap-exit-active {
+    transform: translateY(-100%);
+}
+
+.arrayContainer {
+    position: relative;
+}
+
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0);
+    transition: left 0.5s;
+    padding: 20px;
+    padding-top: 70px;
+    z-index: 2;
+    overflow: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebarToggle {
+    position: fixed;
+    left: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: rgba(45, 64, 89, 0.5);
+    color: var(--secondary-color);
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    padding: 10px;
+    border-radius: 0 15px 15px 0;
+}
+
+.sidebarToggle:hover {
+    background-color: rgba(45, 64, 89, 1);
+}

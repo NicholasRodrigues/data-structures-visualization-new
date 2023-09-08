@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import styles from './styles.module.css';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { ArrayComponent } from '../../components/ArrayComponent';
+import { ArrayItem } from '../../components/ArrayComponent/props';
 
 // hooks next
 // TODO: deixar o input salvo em um state
 export default function ArrayPage() {
-    const [dataArray, setDataArray] = useState<string[]>([]);
+    const [dataArray, setDataArray] = useState<ArrayItem[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
@@ -20,7 +21,7 @@ export default function ArrayPage() {
     const addElement = () => {
         const value = inputRef.current?.value;
         if (value) {
-            setDataArray(prevArray => [...prevArray, value]);
+            setDataArray(prevArray => [...prevArray, { value: value, index: prevArray.length }]);
             (document.getElementById("dataInput") as HTMLInputElement).value = '';  // Limpar o campo de entrada
         } else {
             alert("Please enter a value.");
@@ -34,13 +35,14 @@ export default function ArrayPage() {
     
         if (!value || isNaN(index)) return;
     
-        const newArray = [
-            ...dataArray.slice(0, index),
-            value,
-            ...dataArray.slice(index)
+        const newArray: ArrayItem[] = [
+        ...dataArray.slice(0, index),
+        { value: value, index: index },
+        ...dataArray.slice(index).map((item, idx) => ({ value: item.value, index: idx + index + 1 }))
         ];
-    
-        setDataArray(newArray);
+
+setDataArray(newArray);
+
     
         if (inputRef.current) inputRef.current.value = '';
         indexInput.value = '';
@@ -49,11 +51,11 @@ export default function ArrayPage() {
 
     const removeElement = () => {
         const value = (document.getElementById("dataInput") as HTMLInputElement).value;
-        const index = dataArray.indexOf(value);
+        const index = dataArray.findIndex(item => item.value === value);
         if (index !== -1) {
             setRemovingIndices([...removingIndices, index]);
             setTimeout(() => {
-                const newArray = dataArray.filter(item => item !== value);
+                const newArray = dataArray.filter((item, idx) => idx !== index);
                 setDataArray(newArray);
                 setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
             }, 1500);  // Espera 1.5 segundos (1 segundo para ficar vermelho + 0.5 segundos para a animação de fade-out)
@@ -65,7 +67,7 @@ export default function ArrayPage() {
 
     const searchByValue = () => {
         const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
-        const index = dataArray.indexOf(value);
+        const index = dataArray.findIndex(item => item.value === value);
         if (index !== -1) {
             setItemFoundAtIndex(index);
             setTimeout(() => {
@@ -121,37 +123,17 @@ export default function ArrayPage() {
             <input className={styles.input} type="number" id="swapIndex2" placeholder="Index 2" min="0" />
             <button className={styles.button} onClick={swapElements}>Swap</button>
         </div>
-        
+
         <h2 className={styles.h2}>Array (Lista Sequencial)</h2>
 
-        <div className={styles.mainContainer}>
-        
-
-        <TransitionGroup className="arrayContainer" component="div">
-            {dataArray.map((item, index) => (
-                <CSSTransition key={index} timeout={500} classNames="swap">
-                    <span 
-                        key={index} 
-                        className={`
-                            ${styles.array_item} 
-                            ${removingIndices.includes(index) ? styles.array_item_marked : ''} 
-                            ${itemFoundAtIndex === index ? styles.array_item_highlight : ''}
-                        `}
-                        onAnimationEnd={() => {
-                            if (removingIndices.includes(index)) {
-                                setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-                            }
-                        }}
-                    >
-                        {item}
-                        [{index}]
-                    </span>
-                </CSSTransition>
-            ))}
-        </TransitionGroup>
+            <div className={styles.mainContainer}>
+                <ArrayComponent 
+                    dataArray={dataArray} 
+                    setRemovingIndices={setRemovingIndices} 
+                    itemFoundAtIndex={itemFoundAtIndex} 
+                />
+            </div>
         </div>
-    </div>
-);
-
+    );
 }
 
