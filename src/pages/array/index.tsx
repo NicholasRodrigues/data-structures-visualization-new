@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import styles from './styles.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-
 // hooks next
 // TODO: deixar o input salvo em um state
 export default function ArrayPage() {
@@ -10,6 +9,12 @@ export default function ArrayPage() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
+    const [sidebarActive, setSidebarActive] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarActive(!sidebarActive);
+    };
+
 
 
     const addElement = () => {
@@ -21,6 +26,26 @@ export default function ArrayPage() {
             alert("Please enter a value.");
         }
     };
+
+    const addAtIndex = () => {
+        const value = inputRef.current?.value;
+        const indexInput = document.getElementById("swapIndex1") as HTMLInputElement;
+        const index = parseInt(indexInput.value, 10);
+    
+        if (!value || isNaN(index)) return;
+    
+        const newArray = [
+            ...dataArray.slice(0, index),
+            value,
+            ...dataArray.slice(index)
+        ];
+    
+        setDataArray(newArray);
+    
+        if (inputRef.current) inputRef.current.value = '';
+        indexInput.value = '';
+    };
+    
 
     const removeElement = () => {
         const value = (document.getElementById("dataInput") as HTMLInputElement).value;
@@ -76,16 +101,16 @@ export default function ArrayPage() {
         }
 };
 
-
-
     return (
     <div>
-        <h2 className={styles.h2}>Array (Lista Sequencial)</h2>
-        <div>
+        <button className={styles.sidebarToggle} onClick={toggleSidebar}>☰</button>
+
+        <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
             <input className={styles.input} type="text" id="dataInput" placeholder="Enter value" ref={inputRef}/>
             <button className={styles.button} onClick={addElement}>Add</button>
+            <button className={styles.button} onClick={addAtIndex}>Add At Idx</button>
             <button className={styles.button} onClick={removeElement}>Remove</button>
-            
+
             <input className={styles.input} type="text" id="searchValueInput" placeholder="Search by value" />
             <button className={styles.button} onClick={searchByValue}>Search Value</button>
 
@@ -95,32 +120,36 @@ export default function ArrayPage() {
             <input className={styles.input} type="number" id="swapIndex1" placeholder="Index 1" min="0" />
             <input className={styles.input} type="number" id="swapIndex2" placeholder="Index 2" min="0" />
             <button className={styles.button} onClick={swapElements}>Swap</button>
-
         </div>
+        
+        <h2 className={styles.h2}>Array (Lista Sequencial)</h2>
 
-        <TransitionGroup className ="arrayContainer" component="div">
+        <div className={styles.mainContainer}>
+        
+
+        <TransitionGroup className="arrayContainer" component="div">
             {dataArray.map((item, index) => (
-                <CSSTransition key={item} timeout={500} classNames="swap">
-    <span 
-        key={index} 
-        className={`
-            ${styles.array_item} 
-            ${removingIndices.includes(index) ? styles.array_item_marked : ''} 
-            ${itemFoundAtIndex === index ? styles.array_item_highlight : ''}
-        `}
-        onAnimationEnd={() => {
-            if (removingIndices.includes(index)) {
-                setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-            }
-        }}
-    >
-        {item}
-        [{index}]
-    </span>
-    </CSSTransition>
-))}
-
+                <CSSTransition key={index} timeout={500} classNames="swap">
+                    <span 
+                        key={index} 
+                        className={`
+                            ${styles.array_item} 
+                            ${removingIndices.includes(index) ? styles.array_item_marked : ''} 
+                            ${itemFoundAtIndex === index ? styles.array_item_highlight : ''}
+                        `}
+                        onAnimationEnd={() => {
+                            if (removingIndices.includes(index)) {
+                                setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
+                            }
+                        }}
+                    >
+                        {item}
+                        [{index}]
+                    </span>
+                </CSSTransition>
+            ))}
         </TransitionGroup>
+        </div>
     </div>
 );
 
