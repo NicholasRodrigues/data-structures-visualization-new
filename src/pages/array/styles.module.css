@@ -1,3 +1,5 @@
+@import url('https://fonts.google.com/specimen/Roboto');
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -6,6 +8,14 @@
     to {
         opacity: 1;
     }
+}
+
+.mainContainer {
+    margin-left: 260px;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    padding-top: 30px;
 }
 
 .container > div:first-child {
@@ -22,28 +32,40 @@
 }
 
 .h2 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border: 2px solid var(--tertiary-color);
+    border-radius: 10px;
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    font-family: 'Roboto', sans-serif;
+}
+
+.h2:hover {
+    transform: scale(1.05);
 }
 
 .input,
 .button {
     padding: 10px 15px;
     margin: 5px;
-    border: none;
-    border-radius: 5px;
+    border:  none;
+    border-radius: 50px;
     transition: background-color 0.3s;
     font-size: 1em;
 }
 
 .input {
-    width: 200px;
+    width: 150px;
     border: 2px solid var(--secondary-color);
 }
 
 .button {
-    background-color: var(--primary-color);
+    background-color: var(--highlight-color);
     color: white;
     cursor: pointer;
 }
@@ -117,4 +139,40 @@
 
 .arrayContainer {
     position: relative;
+}
+
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0);
+    transition: left 0.5s;
+    padding: 20px;
+    padding-top: 70px;
+    z-index: 2;
+    overflow: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebarToggle {
+    position: fixed;
+    left: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: rgba(45, 64, 89, 0.5);
+    color: var(--secondary-color);
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    padding: 10px;
+    border-radius: 0 15px 15px 0;
+}
+
+.sidebarToggle:hover {
+    background-color: rgba(45, 64, 89, 1);
 }
