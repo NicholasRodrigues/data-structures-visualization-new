@@ -21,8 +21,23 @@
 
     color: #01161e;
     margin-top:100px;
-    margin-bottom: 500px;
+    margin-bottom: 150px;
     font-size: 80px;
+}
+
+.subtitle{
+    border: 2px solid #01161e;
+    width: 925px;
+    height: 300px;
+    border-radius: 20px;
+    font-size: 30px;
+    color: #01161e;
+    font-style: 'Roboto';
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 300px;
+    background-color: 588157;
+    box-shadow: -2px 3px 5px #01161e;
 }
 
 /*Nome "Participantes" */

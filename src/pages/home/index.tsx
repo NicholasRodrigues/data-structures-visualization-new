@@ -9,14 +9,10 @@ export default function Home() {
     <div className={styles.main}>
       
       <header>
-      
       <img src="Images/ufpb.jpeg" alt="UFPB" className={styles.ufpb}/>   
       <h1 className={styles.title}>PROJETO ESTRUTURA DE DADOS</h1>
-      <link
-      href="https://fonts.google.com/specimen/Roboto"
-      rel="stylesheet"
-      />
-
+      <p className={styles.subtitle}>Projeto da disciplina de Estrutura de Dados do professor Tiago Maritan, cuja proposta foi desenvolver uma representação visual do
+      funcionamento do processo de inserção, remoção e consulta nas Listas Sequenciais, Listas Simplesmente Encadeadas (LSE) e Listas Duplamente Encadeadas (LDE). </p>
       </header>
           
         <h2 className = {styles.participants}>PARTICIPANTES</h2>
