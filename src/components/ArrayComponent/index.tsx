@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { ArrayProps } from './props';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-export const ArrayComponent: React.FC<ArrayProps> = ({ dataArray, setRemovingIndices, itemFoundAtIndex }) => {
+export const ArrayComponent: React.FC<ArrayProps> = ({ dataArray, setRemovingIndices, removingIndices, itemFoundAtIndex }) => {
     return (
         <TransitionGroup className="arrayContainer" component="div">
             {dataArray.map((item, index) => (
@@ -11,7 +11,7 @@ export const ArrayComponent: React.FC<ArrayProps> = ({ dataArray, setRemovingInd
                     <span 
                         className={`
                             ${styles.array_item} 
-                            ${styles.array_item_marked} 
+                            ${removingIndices.includes(index) ? styles.array_item_marked : ''} 
                             ${itemFoundAtIndex === index ? styles.array_item_highlight : ''}
                         `}
                         onAnimationEnd={() => {

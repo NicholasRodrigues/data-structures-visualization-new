@@ -41,7 +41,7 @@ export default function ArrayPage() {
         ...dataArray.slice(index).map((item, idx) => ({ value: item.value, index: idx + index + 1 }))
         ];
 
-setDataArray(newArray);
+    setDataArray(newArray);
 
     
         if (inputRef.current) inputRef.current.value = '';
@@ -129,7 +129,8 @@ setDataArray(newArray);
             <div className={styles.mainContainer}>
                 <ArrayComponent 
                     dataArray={dataArray} 
-                    setRemovingIndices={setRemovingIndices} 
+                    setRemovingIndices={setRemovingIndices}
+                    removingIndices={removingIndices}
                     itemFoundAtIndex={itemFoundAtIndex} 
                 />
             </div>
