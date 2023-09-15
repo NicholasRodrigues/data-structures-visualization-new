@@ -1,0 +1,190 @@
+/*Cobre toda a página */
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    text-align: center;
+
+}
+
+/*Imagem UFPB*/
+.ufpb{
+    mix-blend-mode: multiply;
+}
+
+/*Título do Projeto */
+.title {
+    font-style: 'Roboto';
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adicione a sombra com deslocamento horizontal, deslocamento vertical, desfoque e cor */
+
+    color: #01161e;
+    margin-top:100px;
+    margin-bottom: 150px;
+    font-size: 80px;
+}
+
+.subtitle{
+    border: 2px solid #01161e;
+    width: 925px;
+    height: 300px;
+    border-radius: 20px;
+    font-size: 30px;
+    color: #01161e;
+    font-style: 'Roboto';
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 300px;
+    background-color: 588157;
+    box-shadow: -2px 3px 5px #01161e;
+}
+
+/*Nome "Participantes" */
+.participants{
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-style: 'Roboto';
+    border: none;
+    color: #01161e;
+    margin-top:50px;
+    font-size: 80px;
+    display: block;
+}
+
+/*Nome "Participantes quando o mouse passa por eels" */
+.participants:hover{
+    font-size: 81px;
+    transition: all 0.5s ease;
+
+
+}
+
+/*Imagem de cada participante */
+.felipe_pic, .nicholas_pic, .tiago_pic{
+    width: 200px;
+    border-radius: 50%;
+    margin: 50px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: -1px 10px 15px #01161e;
+    
+}
+
+/*div do nome de cada participante */
+.team_names {
+
+    font-size: 30px;
+    font-style: 'Roboto';
+    color:#01161e;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row; /* Change to 'row' to display side by side */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+}
+
+/*Nome de cada participante */
+.felipe_name, .nicholas_name, .tiago_name {
+    margin: -20px 30px 0 40px;
+}
+
+/*Nome "Conteúdo" */
+.content{
+    font-style: 'Roboto';
+    color: #01161e;
+    margin-top:100px;
+    text-align: center;
+    font-size: 80px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    display: inline-block;
+    width: 100%; 
+}
+
+/*Nome "Conteúdo" quando o mouse passa por cima */
+.content:hover{
+    font-size: 81px;
+    transition: all 0.5s ease; /* Adicione uma transição suave */
+}
+
+/*div das listas clicáveis e bloqueadas */
+.lists,
+.blockedlists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*div da lista clicável */
+.lists{
+    margin-top: 300px;
+}
+
+/*div da lista bloqueada */
+.blockedlists{
+    margin-bottom: 200px;
+}
+
+/*Elementos individuais da div lista*/
+.lista_sequencial,
+.lista_simples,
+.lista_dupla, 
+.pilha,
+.fila,
+.arvore{
+    border: 2px solid #01161e;
+    width: 430px;
+    height: 130px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+    color: #01161e;
+    font-style: 'Roboto';
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 30px;
+    flex-basis: calc(33.33% - 30px); 
+    background-color: 588157;
+    box-shadow: -5px 5px 5px 5px #01161e;
+    font-weight: bold;
+    transition: all 0.4s ease;
+
+}
+
+/*Elementos individuais da div de lista clicável quando o mouse passa por cima*/
+.lista_sequencial:hover,
+.lista_simples:hover,
+.lista_dupla:hover
+ {
+    font-size: 31px;
+    color: #0f3443;
+     border-color: #0f3443;
+    background-color: #9ec3d1;
+}
+
+/*Elementos individuais da div de lista bloqueada quando o mouse passa por cima*/
+.pilha:hover, .fila:hover, .arvore:hover{
+    font-size: 31px;
+    color: #0f3443;
+     border-color: #0f3443;
+    background-color: rgb(203, 73, 73);
+    box-shadow: -5px 5px 5px 5px #01161e;
+    transition: all 0.4s ease;
+
+}
+
+/*Rodapé da página*/
+.footer {
+    background: cross-fade();
+    padding: 20px; 
+    text-align: center;
+}
+
