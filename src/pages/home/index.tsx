@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.main}>
       
       <header>
-      <img src="Images/ufpb.jpeg" alt="UFPB" className={styles.ufpb}/>   
+      <img src="Images/ufpb_png.png" alt="UFPB" className={styles.ufpb}/>   
       <h1 className={styles.title}>PROJETO ESTRUTURA DE DADOS</h1>
       <p className={styles.subtitle}>Projeto da disciplina de Estrutura de Dados do professor Tiago Maritan, cuja proposta foi desenvolver uma representação visual do
       funcionamento do processo de inserção, remoção e consulta nas Listas Sequenciais, Listas Simplesmente Encadeadas (LSE) e Listas Duplamente Encadeadas (LDE). </p>
