@@ -62,6 +62,7 @@ export default function LinkedListPage() {
     setLinkedList(newLinkedList);
 };
 
+
     const searchNode = () => {
         const value = (document.getElementById('searchNode') as HTMLInputElement).value;
         const index = linkedList.findIndex(node => node.value === value);
