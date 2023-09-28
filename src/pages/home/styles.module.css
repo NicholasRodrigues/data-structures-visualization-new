@@ -11,42 +11,42 @@
 
 /*Imagem UFPB*/
 .ufpb{
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
 }
 
 /*Título do Projeto */
 .title {
     font-style: 'Roboto';
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adicione a sombra com deslocamento horizontal, deslocamento vertical, desfoque e cor */
+    text-shadow: 2px 2px 4px rgba(225, 200, 200, 0.5); /* Adicione a sombra com deslocamento horizontal, deslocamento vertical, desfoque e cor */
 
-    color: #01161e;
+    color: #f8f8f8;
     margin-top:100px;
     margin-bottom: 150px;
     font-size: 80px;
 }
 
 .subtitle{
-    border: 2px solid #01161e;
+    border: 2px solid #f8f8f8;
     width: 925px;
     height: 300px;
     border-radius: 20px;
     font-size: 30px;
-    color: #01161e;
+    color: #f8f8f8;
     font-style: 'Roboto';
     display: inline-flex;
     align-items: center;
     margin-bottom: 300px;
     background-color: 588157;
-    box-shadow: -2px 3px 5px #01161e;
+    box-shadow: -2px 3px 5px rgba(199, 193, 193, 0.5);
 }
 
 /*Nome "Participantes" */
 .participants{
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(199, 193, 193, 0.5);
     font-style: 'Roboto';
     border: none;
-    color: #01161e;
+    color: #f8f8f8;
     margin-top:50px;
     font-size: 80px;
     display: block;
@@ -66,8 +66,8 @@
     border-radius: 50%;
     margin: 50px;
     margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    box-shadow: -1px 10px 15px #01161e;
+    box-shadow: 0 2px 8px rgba(109, 109, 109, 0.1);
+    box-shadow: -1px 1px 15px rgba(128, 115, 115, 0.5);
     
 }
 
@@ -76,8 +76,9 @@
 
     font-size: 30px;
     font-style: 'Roboto';
-    color:#01161e;
+    color:#f8f8f8;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(199, 193, 193, 0.5);
     display: flex;
     flex-direction: row; /* Change to 'row' to display side by side */
     justify-content: center;
@@ -94,11 +95,11 @@
 /*Nome "Conteúdo" */
 .content{
     font-style: 'Roboto';
-    color: #01161e;
+    color: #f8f8f8;
     margin-top:100px;
     text-align: center;
     font-size: 80px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    text-shadow: 2px 2px 4px rgba(199, 193, 193, 0.5);
     display: inline-block;
     width: 100%; 
 }
@@ -135,14 +136,14 @@
 .pilha,
 .fila,
 .arvore{
-    border: 2px solid #01161e;
+    border: 2px solid #f8f8f8;
     width: 430px;
     height: 130px;
     border-radius: 20px;
     text-transform: uppercase;
     font-size: 30px;
     text-align: center;
-    color: #01161e;
+    color: #f8f8f8;
     font-style: 'Roboto';
     text-decoration: none;
     display: inline-flex;
@@ -153,7 +154,7 @@
     margin-right: 30px;
     flex-basis: calc(33.33% - 30px); 
     background-color: 588157;
-    box-shadow: -5px 5px 5px 5px #01161e;
+    box-shadow: -5px 5px 5px rgba(199, 193, 193, 0.5);
     font-weight: bold;
     transition: all 0.4s ease;
 
@@ -186,6 +187,7 @@
     background: cross-fade();
     padding: 20px; 
     text-align: center;
+    color: #f8f8f8
 }
 
 /* Estado inicial dos elementos que vão aparecer */
