@@ -3,6 +3,7 @@ import styles from './styles.module.css';
 import { ArrayComponent } from '@/components/ArrayComponent';
 import { ArrayItem } from '@/components/ArrayComponent/props';
 import {toast} from 'react-hot-toast';
+import { Button } from '@/components/Button';
 
 // hooks next
 // TODO: deixar o input salvo em um state
@@ -69,6 +70,23 @@ export default function ArrayPage() {
             toast.error('Por favor, insira um valor.');
         }
 };
+    const removeElementByIndex = () => {
+    const indexStr = (document.getElementById("indexInput") as HTMLInputElement).value;
+    const index = parseInt(indexStr);
+
+    if (index >= 0 && index < dataArray.length) {
+        setRemovingIndices([...removingIndices, index]);
+        setTimeout(() => {
+            const newArray = dataArray.filter((item, idx) => idx !== index);
+            setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
+            setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
+            toast.success('Elemento removido com sucesso!');
+        }, 1500);  // Espera 1.5 segundos (1 segundo para ficar vermelho + 0.5 segundos para a animação de fade-out)
+    } else {
+        toast.error('Índice inválido.');
+    }
+};
+
 
 
     const searchByValue = () => {
@@ -151,6 +169,10 @@ export default function ArrayPage() {
             <input className={styles.input} type="number" id="swapIndex1" placeholder="Index 1" min="0" />
             <input className={styles.input} type="number" id="swapIndex2" placeholder="Index 2" min="0" />
             <button className={styles.button} onClick={swapElements}>Swap</button>
+
+            <input className = {styles.input} type="number" id="indexInput" placeholder="Remove By Index" />
+            <Button description={"Remove By Index"} onClick={removeElementByIndex} />
+
         </div>
 
         <div className={styles.titleArray}>
