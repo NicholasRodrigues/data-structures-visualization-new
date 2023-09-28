@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import styles from './styles.module.css';
-import { ArrayComponent } from '../../components/ArrayComponent';
-import { ArrayItem } from '../../components/ArrayComponent/props';
+import { ArrayComponent } from '@/components/ArrayComponent';
+import { ArrayItem } from '@/components/ArrayComponent/props';
+import {toast} from 'react-hot-toast';
 
 // hooks next
 // TODO: deixar o input salvo em um state
@@ -11,6 +12,8 @@ export default function ArrayPage() {
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
     const [sidebarActive, setSidebarActive] = useState(false);
+    const successToast = () => toast.success('Success!');
+    const errorToast = () => toast.error('Error!');
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
@@ -23,8 +26,9 @@ export default function ArrayPage() {
         if (value) {
             setDataArray(prevArray => [...prevArray, { value: value, index: prevArray.length }]);
             (document.getElementById("dataInput") as HTMLInputElement).value = '';  // Limpar o campo de entrada
+            toast.success('Elemento adicionado com sucesso!');
         } else {
-            alert("Please enter a value.");
+            toast.error('Por favor, insira um valor.');
         }
     };
 
@@ -32,18 +36,19 @@ export default function ArrayPage() {
         const value = inputRef.current?.value;
         const indexInput = document.getElementById("swapIndex1") as HTMLInputElement;
         const index = parseInt(indexInput.value, 10);
-    
+        toast.success('Elemento adicionado com sucesso!');
+
         if (!value || isNaN(index)) return;
-    
+
         const newArray: ArrayItem[] = [
         ...dataArray.slice(0, index),
         { value: value, index: index },
         ...dataArray.slice(index).map((item, idx) => ({ value: item.value, index: idx + index + 1 }))
-        ];
+    ];
 
-    setDataArray(newArray);
+    setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));  // Adjust internal index to match actual index
 
-    
+
         if (inputRef.current) inputRef.current.value = '';
         indexInput.value = '';
     };
@@ -56,11 +61,12 @@ export default function ArrayPage() {
             setRemovingIndices([...removingIndices, index]);
             setTimeout(() => {
                 const newArray = dataArray.filter((item, idx) => idx !== index);
-                setDataArray(newArray);
+                setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
                 setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
+                toast.success('Elemento removido com sucesso!');
             }, 1500);  // Espera 1.5 segundos (1 segundo para ficar vermelho + 0.5 segundos para a animação de fade-out)
         } else {
-            alert("Value not found.");
+            toast.error('Por favor, insira um valor.');
         }
 };
 
@@ -74,7 +80,7 @@ export default function ArrayPage() {
                 setItemFoundAtIndex(-1);  // Remover o highlight após 2 segundos
             }, 2000);
         } else {
-            alert("Value not found.");
+            toast.error("Value not found.");
         }
 };
 
@@ -82,26 +88,49 @@ export default function ArrayPage() {
     const searchByPosition = () => {
         const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
         if (position >= 0 && position < dataArray.length) {
-            alert(`Value at position ${position} is ${dataArray[position]}.`);
+            toast.success(`Value at position ${position} is ${dataArray[position]}.`);
         } else {
-            alert(`Invalid position.`);
+            toast.error(`Invalid position.`);
         }
     };
 
     const swapElements = () => {
         const index1 = parseInt((document.getElementById("swapIndex1") as HTMLInputElement).value);
         const index2 = parseInt((document.getElementById("swapIndex2") as HTMLInputElement).value);
-        
-        if (!isNaN(index1) && !isNaN(index2) && index1 !== index2) {
-            const newArray = [...dataArray];
-            const temp = newArray[index1];
-            newArray[index1] = newArray[index2];
-            newArray[index2] = temp;
-            setDataArray(newArray);
+
+        // Check if the indices are numbers, distinct, and within the bounds of dataArray
+        if (!isNaN(index1) && !isNaN(index2) && index1 !== index2 &&
+            index1 >= 0 && index1 < dataArray.length &&
+            index2 >= 0 && index2 < dataArray.length) {
+
+            // Highlight the first swapped element
+            setItemFoundAtIndex(index1);
+
+            setTimeout(() => {
+                // After a short delay, highlight the second swapped element
+                setItemFoundAtIndex(index2);
+
+                setTimeout(() => {
+                    // Now, perform the actual swap
+                    const newArray = [...dataArray];
+                    const temp = newArray[index1];
+                    newArray[index1] = newArray[index2];
+                    newArray[index2] = temp;
+
+                    // Adjust the internal index properties to match their new positions
+                    newArray[index1].index = index1;
+                    newArray[index2].index = index2;
+
+                    setDataArray(newArray);
+
+                    // Remove the highlight from both elements
+                    setItemFoundAtIndex(-1);
+                }, 500);  // This delay allows the second highlight to be visible for a bit before the swap
+            }, 500);  // This delay controls the time between highlighting the first and second elements
         } else {
             alert("Please provide valid indices to swap.");
         }
-};
+    };
 
     return (
     <div>
@@ -124,7 +153,29 @@ export default function ArrayPage() {
             <button className={styles.button} onClick={swapElements}>Swap</button>
         </div>
 
-        <h2 className={styles.h2}>Array (Lista Sequencial)</h2>
+        <div className={styles.titleArray}>
+            <div className={styles.texts}>
+                <p className={styles.p}>Array</p>
+                <p className={styles.p}>Array</p>
+            </div>
+            <div className={styles.texts}>
+                <p className={styles.p}>Array</p>
+                <p className={styles.p}>Array</p>
+            </div>
+            <div className={styles.texts}>
+                <p className={styles.p}>Array</p>
+                <p className={styles.p}>Array</p>
+            </div>
+            <div className={styles.texts}>
+                <p className={styles.p}>Array</p>
+                <p className={styles.p}>Array</p>
+            </div>
+            <div className={styles.texts}>
+                <p className={styles.p}>Array</p>
+                <p className={styles.p}>Array</p>
+            </div>
+        </div>
+        {/*<h2 className={styles.h2}>Array</h2>*/}
 
             <div className={styles.mainContainer}>
                 <ArrayComponent 

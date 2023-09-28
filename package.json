@@ -17,8 +17,10 @@
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-transition-group": "^4.4.5",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "@react-buddy/ide-toolbox-next": "^2.4.1"
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.6"

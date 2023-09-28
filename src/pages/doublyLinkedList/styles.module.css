@@ -1,0 +1,102 @@
+@import url('https://fonts.google.com/specimen/Roboto');
+
+.container {
+    margin-left: 260px;
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0);
+    transition: left 0.5s;
+    padding: 20px;
+    padding-top: 70px;
+    z-index: 2;
+    overflow: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebarToggle {
+    position: fixed;
+    left: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: rgba(45, 64, 89, 0.5);
+    color: var(--secondary-color);
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    padding: 10px;
+    border-radius: 0 15px 15px 0;
+    transition: background-color 0.3s;
+    width: 25px;
+    height: 40px;
+}
+
+.sidebarToggle:hover {
+    background-color: rgba(45, 64, 89, 1);
+}
+
+.input {
+    width: 150px;
+    border: 2px solid var(--secondary-color);
+    padding: 10px 15px;
+    margin: 5px;
+    border:  none;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+
+
+/* CSS para a div do título */
+.titleWrapper {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 20px 40px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, rgba(34, 167, 240, 1), rgba(58, 217, 159, 1));
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS para o título */
+.h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Efeito de hover para o título */
+.titleWrapper:hover .h1 {
+    text-shadow: 0px 3px 20px rgba(255, 255, 255, 0.7);
+    transform: scale(1.05);
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.searchResult {
+  margin-top: 20px;
+}

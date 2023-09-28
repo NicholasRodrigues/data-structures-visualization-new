@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 import styles from './styles.module.css';
+import {useFadeInOnScroll} from "@/hooks/useFadeInOnScroll";
 
 export default function Home() {
-  
+    const addToRefs = useFadeInOnScroll();
   return (
    
     <div className={styles.main}>
@@ -16,25 +17,25 @@ export default function Home() {
       </header>
           
         <h2 className = {styles.participants}>PARTICIPANTES</h2>
-        <div className={styles.images}>
+        <div className={styles.images}  ref={addToRefs}>
         <img src="Images/felipe.jpeg" alt="Profile Picture" className={styles.felipe_pic}/>
         <img src="Images/nicholas.jpeg" alt="Profile Picture" className={styles.nicholas_pic}/>
         <img src="Images/tiago.jpeg" alt="Profile Picture" className={styles.tiago_pic}/>
         </div>
-        <div className={styles.team_names}>
+        <div className={styles.team_names} ref={addToRefs}>
           <p className={styles.felipe_name}>Felipe Duarte</p>
           <p className={styles.nicholas_name}>Nicholas Rodrigues</p>
           <p className={styles.tiago_name}>Tiago Trindade</p>            
         </div>
 
-        <div className={styles.lists}>
+        <div className={styles.lists} ref={addToRefs}>
           <h2 className = {styles.content}>CONTEÚDO</h2>
           <p><Link href="/array" className ={styles.lista_sequencial}>Listas Sequenciais</Link></p>
-          <p><Link href="/arraysimp" className ={styles.lista_simples}>Listas Simplesmente Encadeadas</Link></p>
-          <p><Link href="/arraydup" className ={styles.lista_dupla}>Listas Duplamente Encadeadas</Link></p>        
+          <p><Link href="/linkedList" className ={styles.lista_simples}>Listas Simplesmente Encadeadas</Link></p>
+          <p><Link href="/doublyLinkedList" className ={styles.lista_dupla}>Listas Duplamente Encadeadas</Link></p>
         </div>
 
-        <div className={styles.blockedlists}>
+        <div className={styles.blockedlists} ref={addToRefs}>
           <p><a className ={styles.pilha}>Pilhas</a></p>
           <p><a className ={styles.fila}>Filas</a></p>
           <p><a className ={styles.arvore}>Árvores Binárias</a></p>

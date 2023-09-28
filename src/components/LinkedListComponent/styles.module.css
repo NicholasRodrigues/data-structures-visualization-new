@@ -1,0 +1,56 @@
+.linkedListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left; /* Centraliza os itens horizontalmente */
+  justify-items: left;
+  align-content: center;
+  align-items: center
+}
+
+
+.linkedListItem {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  position: relative;
+  flex: 0 1 calc(50% - 10px);
+  max-width: calc(50% - 10px);
+    /*display: inline-block;*/
+    /*border: 1px solid var(--secondary-color);*/
+    /*margin: 5px;*/
+    /*padding: 15px 25px;*/
+    /*transition: background-color 0.3s, transform 0.3s;*/
+    /*background-color: white;*/
+    /*color: var(--text-color);*/
+    /*font-size: 1.5em;*/
+    /*border-radius: 10px;*/
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+/* styles.module.css */
+
+.pointer {
+  width: 30px;
+  display: inline-block;
+  position: relative;
+}
+
+.pointer:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(255, 255, 255, 0);
+  border-left-color: #000;
+  border-width: 5px;
+  margin-top: -2.5px;
+}
+
