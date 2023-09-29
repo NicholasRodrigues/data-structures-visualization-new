@@ -71,7 +71,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* CSS para o título */
+
 .h1 {
     margin: 0;
     font-size: 48px;
@@ -82,7 +82,6 @@
     transition: all 0.3s ease;
 }
 
-/* Efeito de hover para o título */
 .titleWrapper:hover .h1 {
     text-shadow: 0px 3px 20px rgba(255, 255, 255, 0.7);
     transform: scale(1.05);

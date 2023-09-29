@@ -19,6 +19,11 @@ const DoublyLinkedListNodeComponent: React.FC<DoublyLinkedListNodeProps> = ({ no
         <span className={styles.block}>
         Next: {node.next ? `[${node.next.value}]` : 'null'}
         </span>
+        { node.next !== null && (
+        <span className={styles.pointer}>
+            &rarr;
+        </span>
+        )}
 
     </div>
     );

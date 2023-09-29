@@ -16,6 +16,10 @@ export default function DoublyLinkedListPage() {
   };
 
   const addNode = (value: string) => {
+    if(!value){
+      toast.error('Por favor, insira um valor.');
+      return;
+    }
     const newNode: DoublyLinkedListNode = { value, next: null, prev: null };
     if (linkedList.length === 0) {
       setLinkedList([newNode]);
@@ -28,9 +32,103 @@ export default function DoublyLinkedListPage() {
     toast.success('Elemento adicionado com sucesso!');
   };
 
+  const addNodeByIndex = () => {
+    const value = (document.getElementById('addNode') as HTMLInputElement).value;
+    const indexInput = document.getElementById('addNodeIndex') as HTMLInputElement;
+    const index = parseInt(indexInput.value, 10);
+
+    if (isNaN(index)) {
+      toast.error('Por favor, insira um valor.');
+      return;
+    }
+
+    if (index < 0 || index > linkedList.length) {
+      toast.error('Index inválido.');
+      return;
+    }
+
+    let newLinkedList = [...linkedList];
+
+    const newNode: DoublyLinkedListNode = { value, next: null, prev: null };
+
+    if (index === 0) {
+      newNode.next = linkedList[0] || null;
+      newLinkedList = [newNode, ...linkedList];
+    } else {
+      const prevNode = newLinkedList[index - 1];
+      newNode.next = prevNode.next;
+      newNode.prev = prevNode;
+      prevNode.next = newNode;
+
+      newLinkedList = [...newLinkedList.slice(0, index), newNode, ...newLinkedList.slice(index)];
+
+    }
+    setLinkedList(newLinkedList);
+
+    toast.success('Elemento adicionado com sucesso!');
+    indexInput.value = '';
+  }
+
+  const updateValue = () => {
+    const indexInput = document.getElementById('updateValueInputIndex') as HTMLInputElement;
+    const index = parseInt(indexInput.value, 10);
+
+    if (isNaN(index) || index < 0 || index >= linkedList.length) {
+      toast.error('Index inválido.');
+      return;
+    }
+
+    const newValue = (document.getElementById('updateValueInput') as HTMLInputElement).value;
+
+    if (!newValue) {
+      toast.error('Por favor, insira um novo valor.');
+      return;
+    }
+
+    let newLinkedList = [...linkedList];
+
+    let currentNode = newLinkedList[0];
+    let currentIndex = 0;
+
+    while (currentNode !== null) {
+      if (currentIndex === index) {
+        currentNode.value = newValue;
+
+        if (currentNode.prev) {
+          // Update the next node's prev pointer
+          currentNode.prev.next = currentNode;
+        }
+
+        if (currentNode.next) {
+          // Update the previous node's next pointer
+          currentNode.next.prev = currentNode;
+        }
+
+        setLinkedList(newLinkedList);
+        toast.success(`Valor no índice ${index} atualizado com sucesso.`);
+        indexInput.value = '';
+        (document.getElementById('updateValueInput') as HTMLInputElement).value = ''; // Clear the input field
+        return;
+      }
+
+      if (currentNode.next) {
+        currentNode = currentNode.next;
+        currentIndex++;
+      } else {
+        break;
+      }
+    }
+  };
+
+
 const removeNode = () => {
   const value = (document.getElementById('removeNode') as HTMLInputElement).value;
   let newLinkedList = [...linkedList];
+
+  if(!value){
+    toast.error('Por favor, insira um valor.');
+    return;
+  }
 
   if (newLinkedList[0]?.value === value) {
     newLinkedList = newLinkedList.slice(1);
@@ -56,6 +154,10 @@ const removeNode = () => {
 
 const removeNodeByIndex = (targetIndex: number) => {
     let newLinkedList = [...linkedList];
+    if(!targetIndex){
+      toast.error('Por favor, insira um valor.');
+      return;
+    }
     if (targetIndex === 0) {
         newLinkedList = newLinkedList.slice(1);
         if (newLinkedList[0]) {
@@ -72,6 +174,7 @@ const removeNodeByIndex = (targetIndex: number) => {
         newLinkedList.splice(targetIndex, 1);
     }
     setLinkedList(newLinkedList);
+    toast.success('Elemento removido com sucesso!');
 };
 
 
@@ -80,6 +183,10 @@ const removeNodeByIndex = (targetIndex: number) => {
     const value = (document.getElementById('searchNode') as HTMLInputElement).value;
     const index = linkedList.findIndex(node => node.value === value);
     const out = parseInt(index.toString(), 10);
+    if(!value){
+      toast.error('Por favor, insira um valor.');
+      return;
+    }
     toast.success(`Elemento encontrado no index: ${out}`);
     setSearchResult(index);
   };
@@ -87,6 +194,11 @@ const removeNodeByIndex = (targetIndex: number) => {
 const searchNodeByIndex = (targetIndex: number) => {
   let currentNode = linkedList[0];
   let currentIndex = 0;
+
+  if(!targetIndex){
+    toast.error('Por favor, insira um valor.');
+    return;
+  }
 
   while (currentNode !== null) {
     if (currentIndex === targetIndex) {
@@ -110,8 +222,16 @@ const searchNodeByIndex = (targetIndex: number) => {
       <button className={styles.sidebarToggle} onClick={toggleSidebar}>☰</button>
 
       <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
+
         <input type="text" id="addNode" placeholder="Add Node" className={styles.input} />
+        <input type="number" id="addNodeIndex" placeholder="Add Node Index" className={styles.input} />
         <Button description={"Add Node"} onClick={() => addNode((document.getElementById('addNode') as HTMLInputElement).value)} />
+        <Button description={"Add Node(index)"} onClick={addNodeByIndex} />
+
+        <input className={styles.input} type="text" id="updateValueInput" placeholder="Value to Update" />
+        <input className={styles.input} type="text" id="updateValueInputIndex" placeholder="Update index" />
+        <Button description={"Update Value"} onClick={updateValue} />
+
 
         <input type="text" id="removeNode" placeholder="Remove Node" className={styles.input} />
         <Button description={"Remove Node(value)"} onClick={removeNode} />

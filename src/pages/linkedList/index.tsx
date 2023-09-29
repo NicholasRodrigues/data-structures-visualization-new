@@ -17,6 +17,11 @@ export default function LinkedListPage() {
     };
 
     const addNode = (value: string) => {
+
+    if(!value){
+        toast.error('Por favor, insira um valor.');
+    }
+
     const newNode: LinkedListNode = { value, next: null };
     if (linkedList.length === 0) {
     setLinkedList([newNode]);
@@ -27,11 +32,90 @@ export default function LinkedListPage() {
     }
 };
 
+const addNodeByIndex = () => {
+    const value = (document.getElementById('addNode') as HTMLInputElement).value;
+    const indexInput = document.getElementById('addNodeIndex') as HTMLInputElement;
+    const index = parseInt(indexInput.value, 10);
+
+    if (isNaN(index)) {
+      toast.error('Por favor, insira um valor.');
+      return;
+    }
+
+    if (index < 0 || index > linkedList.length) {
+      toast.error('Index inválido.');
+      return;
+    }
+
+    let newLinkedList = [...linkedList];
+
+    const newNode: LinkedListNode = { value, next: null };
+
+    if (index === 0) {
+      newNode.next = linkedList[0] || null;
+      newLinkedList = [newNode, ...linkedList];
+    } else {
+      const prevNode = newLinkedList[index - 1];
+        newNode.next = prevNode.next;
+        prevNode.next = newNode;
+
+        newLinkedList = [...newLinkedList.slice(0, index), newNode, ...newLinkedList.slice(index)];
+
+    }
+    setLinkedList(newLinkedList);
+
+    toast.success('Elemento adicionado com sucesso!');
+    indexInput.value = '';
+  };
+  const updateValue = () => {
+    const indexInput = document.getElementById('updateValueInputIndex') as HTMLInputElement;
+    const index = parseInt(indexInput.value, 10);
+
+    if (isNaN(index) || index < 0 || index >= linkedList.length) {
+      toast.error('Index inválido.');
+      return;
+    }
+
+    const newValue = (document.getElementById('updateValueInput') as HTMLInputElement).value;
+
+    if (!newValue) {
+      toast.error('Por favor, insira um novo valor.');
+      return;
+    }
+
+    let newLinkedList = [...linkedList];
+    let currentNode = newLinkedList[0];
+    let currentIndex = 0;
+
+    while (currentNode !== null) {
+      if (currentIndex === index) {
+        currentNode.value = newValue;
+        setLinkedList(newLinkedList);
+        toast.success(`Valor no índice ${index} atualizado com sucesso.`);
+        indexInput.value = '';
+        (document.getElementById('updateValueInput') as HTMLInputElement).value = ''; // Clear the input field
+        return;
+      }
+
+      if (currentNode.next) {
+        currentNode = currentNode.next;
+        currentIndex++;
+      } else {
+        break;
+      }
+    }
+  };
 
 
     const removeNode = () => {
     const value = (document.getElementById('removeNode') as HTMLInputElement).value;
     let newLinkedList = [...linkedList];
+
+    if(!value){
+        toast.error('Por favor, insira um valor.');
+        return;
+    }
+
     if (newLinkedList[0].value === value) {
     newLinkedList = newLinkedList.slice(1);
     } else {
@@ -44,16 +128,26 @@ export default function LinkedListPage() {
     }
     }
     setLinkedList(newLinkedList);
+    toast.success('Elemento removido com sucesso!');
+
 };
 
     const removeNodeByIndex = (targetIndex: number) => {
 
+    if (targetIndex < 0 || targetIndex > linkedList.length) {
+        toast.error('Index inválido.');
+        return;
+    }
+
+    if (!targetIndex && targetIndex !== 0) {
+        toast.error('Por favor, insira um valor.');
+        return;
+    }
+
     let newLinkedList = [...linkedList];
     if (targetIndex === 0) {
-        // Removendo o primeiro nó
         newLinkedList = newLinkedList.slice(1);
     } else if (targetIndex < newLinkedList.length) {
-        // Removendo um nó no meio ou no final
         if (newLinkedList[targetIndex - 1]) {
             newLinkedList[targetIndex - 1].next = newLinkedList[targetIndex].next;
         }
@@ -67,6 +161,10 @@ export default function LinkedListPage() {
         const value = (document.getElementById('searchNode') as HTMLInputElement).value;
         const index = linkedList.findIndex(node => node.value === value);
         const out = parseInt(index.toString(), 10);
+        if(!value){
+            toast.error('Por favor, insira um valor.');
+            return;
+        }
         toast.success(`Elemento encontrado no index: ${out}`);
         setSearchResult(index);
 };
@@ -74,6 +172,11 @@ export default function LinkedListPage() {
     const searchNodeByIndex = (targetIndex: number) => {
         let currentNode = linkedList[0];
         let currentIndex = 0;
+
+        if(!targetIndex){
+            toast.error('Por favor, insira um valor.');
+            return;
+        }
 
         while (currentNode !== null) {
             if (currentIndex === targetIndex) {
@@ -95,14 +198,19 @@ export default function LinkedListPage() {
 
         <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
         <input type="text" id="addNode" placeholder="Add Node" className={styles.input} />
+        <input type="number" id="addNodeIndex" placeholder="Add Node Index" className={styles.input} />
         <Button description={"Add Node"} onClick={() => addNode((document.getElementById('addNode') as HTMLInputElement).value)} />
-
+        <Button description={"Add Node(Idx)"} onClick={addNodeByIndex} />
             <input type="number" id="removeNodeByIndex" placeholder="Remove Node By Index" className={styles.input} />
         <Button description={"Remove Node(Idx)"} onClick={() => removeNodeByIndex(parseInt((document.getElementById('removeNodeByIndex') as HTMLInputElement).value))} />
 
+        <input className={styles.input} type="text" id="updateValueInput" placeholder="Value to Update" />
+        <input className={styles.input} type="text" id="updateValueInputIndex" placeholder="Update index" />
+        <Button description={"Update Value"} onClick={updateValue} />
+
 
         <input type="text" id="removeNode" placeholder="Remove Node" className={styles.input} />
-        <Button description={"Remove Node"} onClick={removeNodeByIndex} />
+        <Button description={"Remove Node"} onClick={removeNode} />
 
         <input type="text" id="searchNode" placeholder="Search Node" className={styles.input} />
         <Button description={"Search Node"} onClick={searchNode} />

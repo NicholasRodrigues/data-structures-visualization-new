@@ -11,12 +11,12 @@ export default function Home() {
       
       <header>
       <img src="Images/ufpb_png.png" alt="UFPB" className={styles.ufpb}/>   
-      <h1 className={styles.title}>PROJETO ESTRUTURA DE DADOS</h1>
+      <h1 className={styles.head}>PROJETO ESTRUTURA DE DADOS</h1>
       <p className={styles.subtitle}>Projeto da disciplina de Estrutura de Dados do professor Tiago Maritan, cuja proposta foi desenvolver uma representação visual do
       funcionamento do processo de inserção, remoção e consulta nas Listas Sequenciais, Listas Simplesmente Encadeadas (LSE) e Listas Duplamente Encadeadas (LDE). </p>
       </header>
-          
-        <h2 className = {styles.participants}>PARTICIPANTES</h2>
+
+        <h2 className = {styles.members}>PARTICIPANTES</h2>
         <div className={styles.images}  ref={addToRefs}>
         <img src="Images/felipe.jpeg" alt="Profile Picture" className={styles.felipe_pic}/>
         <img src="Images/nicholas.jpeg" alt="Profile Picture" className={styles.nicholas_pic}/>

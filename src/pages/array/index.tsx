@@ -37,13 +37,13 @@ export default function ArrayPage() {
         const value = inputRef.current?.value;
         const indexInput = document.getElementById("swapIndex1") as HTMLInputElement;
         const index = parseInt(indexInput.value, 10);
-        toast.success('Elemento adicionado com sucesso!');
 
         if (!value || isNaN(index)) return;
 
         const newArray: ArrayItem[] = [
         ...dataArray.slice(0, index),
         { value: value, index: index },
+
         ...dataArray.slice(index).map((item, idx) => ({ value: item.value, index: idx + index + 1 }))
     ];
 
@@ -52,8 +52,9 @@ export default function ArrayPage() {
 
         if (inputRef.current) inputRef.current.value = '';
         indexInput.value = '';
+        toast.success('Elemento adicionado com sucesso!');
     };
-    
+
 
     const removeElement = () => {
         const value = (document.getElementById("dataInput") as HTMLInputElement).value;
@@ -65,7 +66,7 @@ export default function ArrayPage() {
                 setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
                 setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
                 toast.success('Elemento removido com sucesso!');
-            }, 1500);  // Espera 1.5 segundos (1 segundo para ficar vermelho + 0.5 segundos para a animação de fade-out)
+            }, 1500);
         } else {
             toast.error('Por favor, insira um valor.');
         }
@@ -81,12 +82,32 @@ export default function ArrayPage() {
             setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
             setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
             toast.success('Elemento removido com sucesso!');
-        }, 1500);  // Espera 1.5 segundos (1 segundo para ficar vermelho + 0.5 segundos para a animação de fade-out)
+        }, 1500);
     } else {
         toast.error('Índice inválido.');
     }
 };
 
+  const updateValue = () => {
+    const newValue = (document.getElementById("updateValueInput") as HTMLInputElement).value;
+    const indexToUpdate = parseInt((document.getElementById("updateValueInputIndex") as HTMLInputElement).value);
+
+    if (!newValue || isNaN(indexToUpdate)) {
+      toast.error('Please provide both a new value and a valid index.');
+      return;
+    }
+
+    if (indexToUpdate < 0 || indexToUpdate >= dataArray.length) {
+      toast.error('Invalid index.');
+      return;
+    }
+
+    const updatedArray = [...dataArray];
+    updatedArray[indexToUpdate] = { ...updatedArray[indexToUpdate], value: newValue };
+    setDataArray(updatedArray);
+
+    toast.success(`Value at index ${indexToUpdate} updated successfully.`);
+  };
 
 
     const searchByValue = () => {
@@ -95,56 +116,53 @@ export default function ArrayPage() {
         if (index !== -1) {
             setItemFoundAtIndex(index);
             setTimeout(() => {
-                setItemFoundAtIndex(-1);  // Remover o highlight após 2 segundos
+                setItemFoundAtIndex(-1);
             }, 2000);
         } else {
             toast.error("Value not found.");
         }
 };
 
+const searchByPosition = () => {
+    const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
+    if (position >= 0 && position < dataArray.length) {
+        let value = dataArray[position].value;
+        toast.success(`Value at position ${position} is ${value}.`);
+    } else {
+        toast.error(`Invalid position.`);
+    }
+};
 
-    const searchByPosition = () => {
-        const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
-        if (position >= 0 && position < dataArray.length) {
-            toast.success(`Value at position ${position} is ${dataArray[position]}.`);
-        } else {
-            toast.error(`Invalid position.`);
-        }
-    };
 
     const swapElements = () => {
         const index1 = parseInt((document.getElementById("swapIndex1") as HTMLInputElement).value);
         const index2 = parseInt((document.getElementById("swapIndex2") as HTMLInputElement).value);
 
-        // Check if the indices are numbers, distinct, and within the bounds of dataArray
         if (!isNaN(index1) && !isNaN(index2) && index1 !== index2 &&
             index1 >= 0 && index1 < dataArray.length &&
             index2 >= 0 && index2 < dataArray.length) {
 
-            // Highlight the first swapped element
             setItemFoundAtIndex(index1);
 
             setTimeout(() => {
-                // After a short delay, highlight the second swapped element
                 setItemFoundAtIndex(index2);
 
                 setTimeout(() => {
-                    // Now, perform the actual swap
                     const newArray = [...dataArray];
                     const temp = newArray[index1];
                     newArray[index1] = newArray[index2];
                     newArray[index2] = temp;
 
-                    // Adjust the internal index properties to match their new positions
+
                     newArray[index1].index = index1;
                     newArray[index2].index = index2;
 
                     setDataArray(newArray);
 
-                    // Remove the highlight from both elements
+
                     setItemFoundAtIndex(-1);
-                }, 500);  // This delay allows the second highlight to be visible for a bit before the swap
-            }, 500);  // This delay controls the time between highlighting the first and second elements
+                }, 500);
+            }, 500);
         } else {
             alert("Please provide valid indices to swap.");
         }
@@ -160,6 +178,10 @@ export default function ArrayPage() {
             <button className={styles.button} onClick={addAtIndex}>Add At Idx</button>
             <button className={styles.button} onClick={removeElement}>Remove</button>
 
+            <input className={styles.input} type="text" id="updateValueInput" placeholder="Value to update" />
+            <input className={styles.input} type="text" id="updateValueInputIndex" placeholder="Index" />
+            <button className={styles.button} onClick={updateValue}>Update Value</button>
+
             <input className={styles.input} type="text" id="searchValueInput" placeholder="Search by value" />
             <button className={styles.button} onClick={searchByValue}>Search Value</button>
 
@@ -174,7 +196,7 @@ export default function ArrayPage() {
             <Button description={"Remove By Index"} onClick={removeElementByIndex} />
 
         </div>
-
+{/*
         <div className={styles.titleArray}>
             <div className={styles.texts}>
                 <p className={styles.p}>Array</p>
@@ -196,15 +218,21 @@ export default function ArrayPage() {
                 <p className={styles.p}>Array</p>
                 <p className={styles.p}>Array</p>
             </div>
-        </div>
+        </div> */}
         {/*<h2 className={styles.h2}>Array</h2>*/}
 
+        <div className={styles.titleContainer}>
+        <div className={styles.titleWrapper}>
+        <h1 className={styles.h1}>Array</h1>
+        </div>
+        </div>
+
             <div className={styles.mainContainer}>
-                <ArrayComponent 
-                    dataArray={dataArray} 
+                <ArrayComponent
+                    dataArray={dataArray}
                     setRemovingIndices={setRemovingIndices}
                     removingIndices={removingIndices}
-                    itemFoundAtIndex={itemFoundAtIndex} 
+                    itemFoundAtIndex={itemFoundAtIndex}
                 />
             </div>
         </div>
