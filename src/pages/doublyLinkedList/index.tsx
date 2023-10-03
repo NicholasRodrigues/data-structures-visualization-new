@@ -36,38 +36,43 @@ export default function DoublyLinkedListPage() {
     const value = (document.getElementById('addNode') as HTMLInputElement).value;
     const indexInput = document.getElementById('addNodeIndex') as HTMLInputElement;
     const index = parseInt(indexInput.value, 10);
-
+  
     if (isNaN(index)) {
       toast.error('Por favor, insira um valor.');
       return;
     }
-
+  
     if (index < 0 || index > linkedList.length) {
       toast.error('Index inválido.');
       return;
     }
-
+  
     let newLinkedList = [...linkedList];
-
     const newNode: DoublyLinkedListNode = { value, next: null, prev: null };
-
+  
     if (index === 0) {
-      newNode.next = linkedList[0] || null;
-      newLinkedList = [newNode, ...linkedList];
+      if (newLinkedList.length > 0) {
+        newLinkedList[0].prev = newNode; // Atualize o prev do primeiro nó existente
+        newNode.next = newLinkedList[0]; // Atualize o próximo do novo nó
+      }
+      newLinkedList = [newNode, ...newLinkedList]; // Adicione o novo nó no início da lista
     } else {
       const prevNode = newLinkedList[index - 1];
       newNode.next = prevNode.next;
       newNode.prev = prevNode;
       prevNode.next = newNode;
-
+      if (newNode.next) {
+        // Atualize o prev do nó seguinte ao novo nó
+        newNode.next.prev = newNode;
+      }
       newLinkedList = [...newLinkedList.slice(0, index), newNode, ...newLinkedList.slice(index)];
-
     }
+  
     setLinkedList(newLinkedList);
-
     toast.success('Elemento adicionado com sucesso!');
     indexInput.value = '';
-  }
+  };
+  
 
   const updateValue = () => {
     const indexInput = document.getElementById('updateValueInputIndex') as HTMLInputElement;
