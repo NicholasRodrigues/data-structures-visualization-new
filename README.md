@@ -56,7 +56,7 @@ This project serves as an interactive educational platform for understanding var
     npm run dev
     ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the project in your browser.
+Open [http://localhost:3000/home](http://localhost:3000/home) to view the project in your browser.
 
 ---
 
