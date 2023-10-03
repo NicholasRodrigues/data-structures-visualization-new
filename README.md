@@ -1,34 +1,88 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Data Structures Visualization 📊
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview 📝
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project serves as an interactive educational platform for understanding various data structures. Built with Next.js and TypeScript, it provides a hands-on approach to learning the fundamentals of Arrays, Linked Lists, and Doubly Linked Lists.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![Project Screenshot](public/Images/ufpb_png.png)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Features 🌟
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Array Visualization**: A dynamic interface for understanding array operations like insertion, deletion, and traversal.
+- **Linked List Visualization**: A step-by-step walkthrough of singly linked lists.
+- **Doubly Linked List Visualization**: An in-depth guide to doubly linked lists, covering various operations and use-cases.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Getting Started 🚀
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Prerequisites
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Node.js
+- npm
+
+### Installation
+
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/NicholasRodrigues/data-structures-visualization-new.git
+    ```
+2. **Navigate to the project directory**
+    ```bash
+    cd data-structures-visualization-new
+    ```
+3. **Install dependencies**
+    ```bash
+    npm install
+    ```
+4. **Start the development server**
+    ```bash
+    npm run dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the project in your browser.
+
+---
+
+## Usage 🛠
+
+Navigate to the respective pages to visualize each data structure:
+
+- Arrays: `/array`
+- Linked Lists: `/linkedList`
+- Doubly Linked Lists: `/doublyLinkedList`
+
+---
+
+## Contributing 🤝
+
+Contributions, issues, and feature requests are welcome! Feel free to open a pull request or issue.
+
+---
+
+## License 📄
+
+This project is licensed under the MIT License.
+
+---
+
+## Contact 📞
+
+- **Nicholas Rodrigues** - [Github](https://github.com/NicholasRodrigues)
+
