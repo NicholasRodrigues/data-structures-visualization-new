@@ -70,9 +70,16 @@ Navigate to the respective pages to visualize each data structure:
 
 ---
 
-## Contributing 🤝
+## Contributors ✨
 
-Contributions, issues, and feature requests are welcome! Feel free to open a pull request or issue.
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/NicholasRodrigues"><img src="https://github.com/NicholasRodrigues.png?size=100" width="100px;" alt=""/><br /><sub><b>Nicholas Rodrigues</b></sub></a><br /><a href="#" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/felipeduartea"><img src="https://github.com/felipeduartea.png?size=100" width="100px;" alt=""/><br /><sub><b>Felipe Duarte</b></sub></a><br /><a href="#" title="Landing Page And Additional Features">📖</a></td>
+    <td align="center"><a href="https://github.com/trindadetiago"><img src="https://github.com/trindadetiago.png?size=100" width="100px;" alt=""/><br /><sub><b>Tiago Trindade</b></sub></a><br /><a href="#" title="Tests and Debug">⚠️</a></td>
+  </tr>
+</table>
+
 
 ---
 
