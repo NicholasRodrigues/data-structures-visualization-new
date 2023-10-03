@@ -110,17 +110,15 @@ export default function ArrayPage() {
   };
 
 
-    const searchByValue = () => {
-        const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
-        const index = dataArray.findIndex(item => item.value === value);
-        if (index !== -1) {
-            setItemFoundAtIndex(index);
-            setTimeout(() => {
-                setItemFoundAtIndex(-1);
-            }, 2000);
-        } else {
-            toast.error("Value not found.");
-        }
+const searchByValue = () => {
+    const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
+    const indices = dataArray.map((item, index) => item.value === value ? index : -1).filter(index => index !== -1);
+
+    if (indices.length > 0) {
+    toast.success("Value found at index/indices: " + indices.join(", "));
+    } else {
+    toast.error("Value not found.");
+    }
 };
 
 const searchByPosition = () => {

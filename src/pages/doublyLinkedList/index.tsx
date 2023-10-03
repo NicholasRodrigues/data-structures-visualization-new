@@ -7,7 +7,7 @@ import {toast} from 'react-hot-toast'
 
 export default function DoublyLinkedListPage() {
   const [linkedList, setLinkedList] = useState<DoublyLinkedListNode[]>([]);
-  const [searchResult, setSearchResult] = useState<number | null>(null);
+  const [searchResult, setSearchResult] = useState<number | null | number[]>(null);
   const [sidebarActive, setSidebarActive] = useState(false);
 
 
@@ -180,16 +180,28 @@ const removeNodeByIndex = (targetIndex: number) => {
 
 
   const searchNode = () => {
-    const value = (document.getElementById('searchNode') as HTMLInputElement).value;
-    const index = linkedList.findIndex(node => node.value === value);
-    const out = parseInt(index.toString(), 10);
-    if(!value){
-      toast.error('Por favor, insira um valor.');
-      return;
-    }
-    toast.success(`Elemento encontrado no index: ${out}`);
-    setSearchResult(index);
-  };
+      const value = (document.getElementById('searchNode') as HTMLInputElement).value;
+      if (!value) {
+          toast.error('Por favor, insira um valor.');
+          return;
+      }
+
+      const indices = linkedList.reduce((acc, node, index) => {
+          if (node.value === value) {
+              acc.push(index);
+          }
+          return acc;
+      }, [] as number[]);
+
+      if (indices.length > 0) {
+          toast.success(`Elemento encontrado nos índices: ${indices.join(', ')}`);
+          setSearchResult(indices);  // Ajuste o setSearchResult para lidar com um array de números, se necessário
+      } else {
+          toast.error('Elemento não encontrado.');
+          setSearchResult(null);
+      }
+};
+
 
 const searchNodeByIndex = (targetIndex: number) => {
   let currentNode = linkedList[0];
