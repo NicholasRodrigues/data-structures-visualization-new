@@ -1,0 +1,143 @@
+.treeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.nodeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.valueContainer {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #4285f4;
+  color: white;
+}
+
+.childrenContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* Para evitar sobreposição de nós em níveis diferentes,
+   você pode ajustar a largura do .nodeContainer com base no nível da árvore.
+   Isso pode ser feito dinamicamente usando o React para aplicar diferentes classes CSS. */
+.nodeContainer.level-1 {
+  width: 100%;
+}
+
+.nodeContainer.level-2 {
+  width: 50%;
+}
+
+.nodeContainer.level-3 {
+  width: 25%;
+}
+
+/* Add this to your styles.module.css for BinaryTreeNodeComponent */
+.nodeContainer::before,
+.nodeContainer::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  height: 20px;
+  background-color: black;
+}
+
+.valueContainer::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background-color: black;
+}
+
+.valueContainer::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 2px;
+  height: 20px;
+  background-color: black;
+}
+
+.line {
+  background-color: black;
+  position: absolute;
+}
+
+.vertical {
+  width: 2px;
+  height: 20px;
+  left: 50%;
+  bottom: -20px;
+}
+
+.horizontal {
+  width: 20px;
+  height: 2px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.left {
+  left: -20px;
+}
+
+.right {
+  right: -20px;
+}
+
+/* Para criar as setas */
+.left::before,
+.right::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.left::before {
+  left: 100%;
+  top: -50%;
+  border-width: 5px 0 5px 10px;
+  border-color: transparent transparent transparent black;
+}
+
+.right::before {
+  right: 100%;
+  top: -50%;
+  border-width: 5px 10px 5px 0;
+  border-color: transparent black transparent transparent;
+}
+
+.arrowContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
