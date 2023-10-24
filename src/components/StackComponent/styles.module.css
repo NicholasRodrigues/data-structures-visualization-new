@@ -81,7 +81,7 @@
 
 .array_item,
 .array_item_marked {
-    display: inline-block;
+    display: block;
     border: 1px solid var(--secondary-color);
     margin: 5px;
     padding: 15px 25px;
@@ -139,4 +139,6 @@
 
 .arrayContainer {
     position: relative;
+    max-height: calc(100vh - 200px); /* Set a maximum height, adjust as needed */
+    overflow-y: auto; /* Add vertical scrollbar when content exceeds max height */
 }

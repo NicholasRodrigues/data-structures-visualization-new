@@ -2,17 +2,17 @@ import React, { useState, useRef } from 'react';
 import styles from './styles.module.css';
 import { ArrayComponent } from '@/components/ArrayComponent';
 import { ArrayItem } from '@/components/ArrayComponent/props';
-import {toast} from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { Button } from '@/components/Button';
 
-// hooks next
-// TODO: deixar o input salvo em um state
 export default function ArrayPage() {
     const [dataArray, setDataArray] = useState<ArrayItem[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+    const sizeRef = useRef<HTMLInputElement>(null); // Reference to the size input field
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
     const [sidebarActive, setSidebarActive] = useState(false);
+
     const successToast = () => toast.success('Success!');
     const errorToast = () => toast.error('Error!');
 
@@ -20,16 +20,42 @@ export default function ArrayPage() {
         setSidebarActive(!sidebarActive);
     };
 
+    const initializeArray = () => {
+        const sizeInput = sizeRef.current;
+        if (sizeInput) {
+            const size = parseInt(sizeInput.value, 10);
+            if (!isNaN(size) && size > 0) {
+                // Initialize the array with the specified size
+                const newArray: ArrayItem[] = Array.from({ length: size }, (_, index) => ({ value: 'Null', index }));
+                setDataArray(newArray);
+            } else {
+                toast.error('Please enter a valid array size.');
+            }
+        } else {
+            toast.error('Failed to access array size input.');
+        }
+    };
 
 
     const addElement = () => {
         const value = inputRef.current?.value;
-        if (value) {
-            setDataArray(prevArray => [...prevArray, { value: value, index: prevArray.length }]);
-            (document.getElementById("dataInput") as HTMLInputElement).value = '';  // Limpar o campo de entrada
-            toast.success('Elemento adicionado com sucesso!');
+        const emptyIndex = dataArray.findIndex(item => item.value === 'Null');
+    
+        if (!value) {
+            toast.error('Please enter a value.');
+            return;
+        }
+    
+        if (emptyIndex !== -1) {
+            // If there is an empty position, fill it with the new value
+            const updatedArray = [...dataArray];
+            updatedArray[emptyIndex] = { value: value, index: emptyIndex };
+            setDataArray(updatedArray);
+            (inputRef.current as HTMLInputElement).value = ''; // Clear the input field
+            toast.success(`Element added successfully at index ${emptyIndex}.`);
         } else {
-            toast.error('Por favor, insira um valor.');
+            // If there are no empty positions, show an error message
+            toast.error('Cannot add more elements. Array is already full.');
         }
     };
 
@@ -37,56 +63,80 @@ export default function ArrayPage() {
         const value = inputRef.current?.value;
         const indexInput = document.getElementById("swapIndex1") as HTMLInputElement;
         const index = parseInt(indexInput.value, 10);
-
+        
         if (!value || isNaN(index)) return;
-
-        const newArray: ArrayItem[] = [
-        ...dataArray.slice(0, index),
-        { value: value, index: index },
-
-        ...dataArray.slice(index).map((item, idx) => ({ value: item.value, index: idx + index + 1 }))
-    ];
-
-    setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));  // Adjust internal index to match actual index
-
-
-        if (inputRef.current) inputRef.current.value = '';
-        indexInput.value = '';
-        toast.success('Elemento adicionado com sucesso!');
+        
+        if (index >= 0 && index < dataArray.length) {
+            const updatedArray = [...dataArray];
+            // Shift subsequent elements to the right by inserting a dummy value
+            updatedArray.splice(index, 0, { value: '', index: -1 });
+            // Set the value at the specified index
+            updatedArray[index] = { value: value, index: index };
+            // Remove the last element to maintain the array's size
+            updatedArray.pop();
+            // Adjust the indices for all elements
+            for (let i = 0; i < updatedArray.length; i++) {
+                updatedArray[i].index = i;
+            }
+            setDataArray(updatedArray);
+            (inputRef.current as HTMLInputElement).value = ''; // Clear the input field
+            indexInput.value = ''; // Clear the index input field
+            toast.success(`Element added successfully at index ${index}.`);
+        } else if (index === dataArray.length) {
+            // If adding at the end, simply replace the last element
+            const updatedArray = [...dataArray];
+            updatedArray[index - 1] = { value: value, index: index - 1 };
+            setDataArray(updatedArray);
+            (inputRef.current as HTMLInputElement).value = ''; // Clear the input field
+            indexInput.value = ''; // Clear the index input field
+            toast.success(`Element added successfully at index ${index - 1}.`);
+        } else {
+            toast.error('Invalid index.');
+        }
     };
-
-
+    
     const removeElement = () => {
         const value = (document.getElementById("dataInput") as HTMLInputElement).value;
         const index = dataArray.findIndex(item => item.value === value);
+        
         if (index !== -1) {
-            setRemovingIndices([...removingIndices, index]);
-            setTimeout(() => {
-                const newArray = dataArray.filter((item, idx) => idx !== index);
-                setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
-                setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-                toast.success('Elemento removido com sucesso!');
-            }, 1500);
+            // Remove the element at the specified index and shift subsequent elements
+            const updatedArray = [...dataArray];
+            updatedArray.splice(index, 1);
+            // Adjust the indices for the subsequent elements
+            for (let i = index; i < updatedArray.length; i++) {
+                updatedArray[i].index = i;
+            }
+            // Set the last element's value to "Null" to maintain the array's size
+            updatedArray.push({ value: 'Null', index: updatedArray.length });
+            setDataArray(updatedArray);
+            toast.success('Element removed succesfully!');
         } else {
-            toast.error('Por favor, insira um valor.');
+            toast.error('Value not found.');
         }
-};
+    };
+    
     const removeElementByIndex = () => {
-    const indexStr = (document.getElementById("indexInput") as HTMLInputElement).value;
-    const index = parseInt(indexStr);
-
-    if (index >= 0 && index < dataArray.length) {
-        setRemovingIndices([...removingIndices, index]);
-        setTimeout(() => {
-            const newArray = dataArray.filter((item, idx) => idx !== index);
-            setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
-            setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-            toast.success('Elemento removido com sucesso!');
-        }, 1500);
-    } else {
-        toast.error('Índice inválido.');
-    }
-};
+        const indexStr = (document.getElementById("indexInput") as HTMLInputElement).value;
+        const index = parseInt(indexStr);
+        
+        if (index >= 0 && index < dataArray.length) {
+            // Remove the element at the specified index and shift subsequent elements
+            const updatedArray = [...dataArray];
+            updatedArray.splice(index, 1);
+            // Adjust the indices for the subsequent elements
+            for (let i = index; i < updatedArray.length; i++) {
+                updatedArray[i].index = i;
+            }
+            // Set the last element's value to "Null" to maintain the array's size
+            updatedArray.push({ value: 'Null', index: updatedArray.length });
+            setDataArray(updatedArray);
+            toast.success('Element removed succesfully!');
+        } else {
+            toast.error('Invalid index.');
+        }
+    };
+    
 
   const updateValue = () => {
     const newValue = (document.getElementById("updateValueInput") as HTMLInputElement).value;
@@ -171,6 +221,9 @@ const searchByPosition = () => {
         <button className={styles.sidebarToggle} onClick={toggleSidebar}>☰</button>
 
         <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
+            <input className={styles.input} type="number" id="arraySizeInput" placeholder="Array Size" ref={sizeRef} />
+            <button className={styles.button} onClick={initializeArray}>Initialize Array</button>
+
             <input className={styles.input} type="text" id="dataInput" placeholder="Enter value" ref={inputRef}/>
             <button className={styles.button} onClick={addElement}>Add</button>
             <button className={styles.button} onClick={addAtIndex}>Add At Idx</button>
