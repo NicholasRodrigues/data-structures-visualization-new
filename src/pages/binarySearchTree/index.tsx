@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles.module.css';
 import BinaryTreeComponent from '@/components/BinaryTreeComponent';
 import { BinaryTreeNode } from "@/components/BinaryTreeComponent/props";
@@ -11,6 +11,10 @@ export default function BinaryTreePage() {
     const [sidebarActive, setSidebarActive] = useState(false);
     const [renderCount, setRenderCount] = useState(0);
     const [traversalResult, setTraversalResult] = useState<number[]>([]);
+    const [visitedNodes, setVisitedNodes] = useState<number[]>([]);
+    const [targetNode, setTargetNode] = useState<number | null>(null);
+
+
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
@@ -109,14 +113,11 @@ const handlePostOrder = () => {
 
     const addNodeToTree = () => {
     const value = parseInt((document.getElementById('addNodeValue') as HTMLInputElement).value);
-    toast.success("Adding Node Value: " + value)
     if (!isNaN(value)) {
         setBinaryTree(prevTree => {
             console.log("Previous Tree: ", prevTree);  // Debug
-            toast.success("Previous Tree: " + JSON.stringify(prevTree, null, 2))
             const newTree = addNode(value, prevTree);
             console.log("New Tree: ", newTree);  // Debug
-            toast.success("New Tree: " + JSON.stringify(newTree, null, 2))
             return newTree;
         });
     }
@@ -130,6 +131,50 @@ const handlePostOrder = () => {
         }
         setRenderCount(prevCount => prevCount + 1);
     };
+
+//binary search algorithm
+    const searchNode = () => {
+        const value = parseInt((document.getElementById('searchNodeValue') as HTMLInputElement).value);
+        if (!isNaN(value)) {
+            const result = search(value, binaryTree);
+            setSearchResult(result);
+        }
+    }
+
+const search = (value: number, node: BinaryTreeNode | null): number | null | number[] => {
+    if (node === null) return null;
+
+    // Marcar como visitado
+    setVisitedNodes((prev) => [...prev, node.value]);
+
+    if (node.value === value) {
+        // Encontrou o nó alvo
+        setTargetNode(node.value);
+
+        // Reverter cor do nó alvo após 2 segundos
+        setTimeout(() => {
+            setTargetNode(null);
+
+            // Limpar nós visitados
+            setVisitedNodes([]);
+
+            // Limpar resultado da busca
+            setSearchResult(null);
+        }, 2000);
+
+        return value;
+    }
+
+    // Reverter cor do nó visitado após 2 segundos
+    setTimeout(() => {
+        setVisitedNodes((prev) => prev.filter((n) => n !== node.value));
+    }, 2000);
+
+    if (value < node.value) return search(value, node.left);
+    if (value > node.value) return search(value, node.right);
+
+    return null;
+};
 
 
 
@@ -147,6 +192,9 @@ const handlePostOrder = () => {
                 <Button description={"Pre-Order"} onClick={handlePreOrder} />
                 <Button description={"Post-Order"} onClick={handlePostOrder} />
 
+                <input type="number" id="searchNodeValue" placeholder="Search Node Value" className={styles.input} />
+                <Button description={"Search Node"} onClick={searchNode} />
+
 
             </div>
             <div className={styles.traversalResultContainer}>]
@@ -162,7 +210,7 @@ const handlePostOrder = () => {
                 </div>
             </div>
             <div className={`${styles.treeContainer}`}>
-                <BinaryTreeComponent key={renderCount} root={binaryTree} />
+                <BinaryTreeComponent key={renderCount} root={binaryTree} visitedNodes={visitedNodes} targetNode={targetNode} />
             </div>
         </div>
     );

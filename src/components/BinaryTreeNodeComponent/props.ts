@@ -9,4 +9,5 @@ export interface BinaryTreeNode {
 export interface BinaryTreeNodeProps {
   node: BinaryTreeNode | null;
   level: number;
+  target?: boolean;
 }
