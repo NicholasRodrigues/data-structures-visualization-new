@@ -10,46 +10,97 @@ import { Button } from '@/components/Button';
 export default function QueuePage() {
     const [dataArray, setDataArray] = useState<ArrayItem[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+    const sizeRef = useRef<HTMLInputElement>(null); // Reference to the size input field
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
     const [sidebarActive, setSidebarActive] = useState(false);
     const successToast = () => toast.success('Success!');
     const errorToast = () => toast.error('Error!');
 
+    const [front, setFront] = useState(-1); // Initialize to -1 since there's no element yet.
+    const [rear, setRear] = useState(-1);
+    const [isInitialized, setIsInitialized] = useState(false);
+
+
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
     };
 
-
-
-    const addElement = () => {
-        const value = inputRef.current?.value;
-        if (value) {
-            setDataArray(prevArray => [...prevArray, { value: value, index: prevArray.length }]);
-            (document.getElementById("dataInput") as HTMLInputElement).value = '';  // Limpar o campo de entrada
-            toast.success('Elemento adicionado com sucesso!');
+    const initializeQueue = () => {
+        const sizeInput = sizeRef.current;
+        if (sizeInput) {
+            const size = parseInt(sizeInput.value, 10);
+            if (!isNaN(size) && size > 0) {
+                const newArray: ArrayItem[] = Array.from({ length: size }, (_, index) => ({ value: '', index }));
+                setDataArray(newArray);
+                setIsInitialized(true);
+                setFront(-1);
+                setRear(-1);
+            } else {
+                toast.error('Please enter a valid queue size.');
+            }
         } else {
-            toast.error('Por favor, insira um valor.');
+            toast.error('Failed to access queue size input.');
         }
     };
+    
+
+    const addElement = () => {
+        if (!isInitialized) {
+            toast.error('Please initialize the queue first.');
+            return;
+        }
+        const value = inputRef.current?.value;
+    
+        if (!value) {
+            toast.error('Please enter a value.');
+            return;
+        }
+    
+        const nextRear = (rear + 1) % dataArray.length;
+        if (nextRear === front) {
+            toast.error('Cannot add more elements. Queue is full.');
+            return;
+        }
+    
+        if (front === -1) {
+            setFront(0);
+        }
+    
+        const newArray = [...dataArray];
+        newArray[nextRear] = { value, index: nextRear }; // Enqueue to the next rear
+        setDataArray(newArray);
+        setRear(nextRear); // Update rear after setting value in array
+    
+        (document.getElementById("dataInput") as HTMLInputElement).value = '';
+        toast.success('Elemento adicionado com sucesso!');
+    };
+    
 
     const removeElementByIndex = () => {
+        if (!isInitialized) {
+            toast.error('Please initialize the queue first.');
+            return;
+        }
+        if (front === -1) {
+            toast.error('Pilha vazia.');
+            return;
+        }
 
-    const index = 0;
+        const newArray = [...dataArray];
+        newArray[front] = { value: '', index: front }; // Dequeue from the front
+        setDataArray(newArray);
 
-    if (index >= 0 && index < dataArray.length) {
-        setRemovingIndices([...removingIndices, index]);
-        setTimeout(() => {
-            const newArray = dataArray.filter((item, idx) => idx !== index);
-            setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
-            setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-            toast.success('Elemento removido com sucesso!');
-        }, 1500);
-    } else {
-        toast.error('Pilha vazia.');
-    }
-};
+        if (front === rear) {
+            setFront(-1);
+            setRear(-1);
+        } else {
+            setFront((front + 1) % dataArray.length);
+        }
 
+        toast.success('Elemento removido com sucesso!');
+    };
+    
 
 const searchByValue = () => {
     const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
@@ -81,6 +132,9 @@ const clearStack = () => {
         <button className={styles.sidebarToggle} onClick={toggleSidebar}>☰</button>
 
         <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
+            <input className={styles.input} type="number" id="arraySizeInput" placeholder="Queue Size" ref={sizeRef} />
+            <button className={styles.button} onClick={initializeQueue}>Initialize Queue</button>
+
             <input className={styles.input} type="text" id="dataInput" placeholder="Enter value" ref={inputRef}/>
             <button className={styles.button} onClick={addElement}>Add</button>
 
@@ -96,30 +150,6 @@ const clearStack = () => {
 
 
         </div>
-{/*
-        <div className={styles.titleArray}>
-            <div className={styles.texts}>
-                <p className={styles.p}>Array</p>
-                <p className={styles.p}>Array</p>
-            </div>
-            <div className={styles.texts}>
-                <p className={styles.p}>Array</p>
-                <p className={styles.p}>Array</p>
-            </div>
-            <div className={styles.texts}>
-                <p className={styles.p}>Array</p>
-                <p className={styles.p}>Array</p>
-            </div>
-            <div className={styles.texts}>
-                <p className={styles.p}>Array</p>
-                <p className={styles.p}>Array</p>
-            </div>
-            <div className={styles.texts}>
-                <p className={styles.p}>Array</p>
-                <p className={styles.p}>Array</p>
-            </div>
-        </div> */}
-        {/*<h2 className={styles.h2}>Array</h2>*/}
 
         <div className={styles.titleContainer}>
         <div className={styles.titleWrapper}>
@@ -129,10 +159,12 @@ const clearStack = () => {
 
             <div className={styles.mainContainer}>
                 <QueueComponent
-                    dataArray={dataArray}
-                    setRemovingIndices={setRemovingIndices}
-                    removingIndices={removingIndices}
-                    itemFoundAtIndex={itemFoundAtIndex}
+                dataArray={dataArray}
+                front={front}
+                rear={rear}
+                setRemovingIndices={setRemovingIndices}
+                removingIndices={removingIndices}
+                itemFoundAtIndex={itemFoundAtIndex}
                 />
             </div>
         </div>

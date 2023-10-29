@@ -10,4 +10,6 @@ export interface ArrayProps {
     setRemovingIndices: React.Dispatch<React.SetStateAction<number[]>>;
     removingIndices: number[];
     itemFoundAtIndex: number | null;
+    front: number;
+    rear: number;
 }
