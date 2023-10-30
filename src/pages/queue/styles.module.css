@@ -257,3 +257,25 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }
+
+.nonEmptyValue {
+    background-color: #f0f8ff; /* Color for non-empty values */
+}
+
+.frontIndicator {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid red; /* Color for the front indicator */
+    margin: 0 auto;
+}
+
+.rearIndicator {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid blue; /* Color for the rear indicator */
+    margin: 0 auto;
+}

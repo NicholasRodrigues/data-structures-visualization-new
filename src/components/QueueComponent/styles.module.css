@@ -140,3 +140,46 @@
 .arrayContainer {
     position: relative;
 }
+
+.nonEmptyValue {
+    background-color: #e9d592; /* Color for non-empty values */
+}
+
+.frontIndicator {
+    /*border-top: 3px solid red;*/
+    position: relative;
+}
+
+.frontIndicator::before {
+    content: "";
+    position: absolute;
+    top: -3px;  /* Move it up to cover the border */
+    left: 15%;  /* Start point of the border */
+    right: 15%; /* End point of the border */
+    border-top: 3px solid rgb(233, 233, 233);
+}
+
+.rearIndicator {
+    /*border-bottom: 3px solid blue;*/
+    position: relative;
+}
+
+.rearIndicator::after {
+    content: "";
+    position: absolute;
+    bottom: -3px; /* Move it down to cover the border */
+    left: 15%;    /* Start point of the border */
+    right: 15%;   /* End point of the border */
+    border-bottom: 3px solid rgb(204, 204, 204);
+}
+
+
+
+
+.queueItemContainer {
+    display: inline-block; /* makes the div inline, but also allows for block-level children */
+    position: relative;    /* allows for absolute positioning of its children */
+    vertical-align: middle; /* to align the items in the center vertically */
+    margin: 0 5px;         /* some spacing between items for clarity */
+}
+
