@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  justify-content: center;
 }
-
 .nodeContainer {
   display: flex;
   flex-direction: column;
@@ -24,7 +26,6 @@
 .childrenContainer {
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 .arrow {
   width: 0;

@@ -2,84 +2,143 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 .nodeContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
 }
 
 .valueContainer {
-  width: 60px;
-  height: 60px;
+  position: absolute;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background-color: #4285f4;
-  color: white;
+  background: #4285f4;
 }
 
-.childrenContainer {
-  display: flex;
-  justify-content: space-between;
+/*.line {*/
+/*  stroke-width: 1;*/
+/*  stroke: black;*/
+/*  position: absolute;*/
+/*}*/
+
+.valueContainer.visited {
+  background-color: #F4D341;
 }
 
-
-/* Para evitar sobreposição de nós em níveis diferentes,
-   você pode ajustar a largura do .nodeContainer com base no nível da árvore.
-   Isso pode ser feito dinamicamente usando o React para aplicar diferentes classes CSS. */
-.nodeContainer.level-1 {
-  width: 100%;
+.valueContainer.target {
+  background-color: #41F45D;
 }
 
-.nodeContainer.level-2 {
-  width: 50%;
+.valueContainer.root {
+  background-color: #F44242;
 }
-
-.nodeContainer.level-3 {
-  width: 25%;
-}
-
-/* Add this to your styles.module.css for BinaryTreeNodeComponent */
-.nodeContainer::before,
-.nodeContainer::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  width: 2px;
-  height: 20px;
-  background-color: black;
-}
-
-.valueContainer::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background-color: black;
-}
-
-.valueContainer::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 2px;
-  height: 20px;
-  background-color: black;
-}
-
 .line {
-  background-color: black;
-  position: absolute;
+    border: 1px solid black;
+    transform-origin: 0 0;
+    background: #01161e;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
 }
+
+.distanceContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+
+}
+
+
+/*.nodeContainer {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*}*/
+
+/*.valueContainer {*/
+/*  width: 60px;*/
+/*  height: 60px;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  border-radius: 50%;*/
+/*  background-color: #4285f4;*/
+/*  color: white;*/
+/*}*/
+
+/*.childrenContainer {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*}*/
+/*.arrowContainer {*/
+/*  width: 100%;*/
+/*  height: 20px;*/
+/*}*/
+
+/*!* Para evitar sobreposição de nós em níveis diferentes,*/
+/*   você pode ajustar a largura do .nodeContainer com base no nível da árvore.*/
+/*   Isso pode ser feito dinamicamente usando o React para aplicar diferentes classes CSS. *!*/
+/*.nodeContainer.level-1 {*/
+/*  width: 100%;*/
+/*}*/
+
+/*.nodeContainer.level-2 {*/
+/*  width: 50%;*/
+/*}*/
+
+/*.nodeContainer.level-3 {*/
+/*  width: 25%;*/
+/*}*/
+
+/*!* Add this to your styles.module.css for BinaryTreeNodeComponent *!*/
+/*.nodeContainer::before,*/
+/*.nodeContainer::after {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  width: 2px;*/
+/*  height: 20px;*/
+/*  background-color: black;*/
+/*}*/
+
+/*.valueContainer::before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 50%;*/
+/*  top: 100%;*/
+/*  transform: translateX(-50%);*/
+/*  width: 2px;*/
+/*  height: 20px;*/
+/*  background-color: black;*/
+/*}*/
+
+/*.valueContainer::after {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 50%;*/
+/*  top: 100%;*/
+/*  transform: translateX(-50%) rotate(45deg);*/
+/*  width: 2px;*/
+/*  height: 20px;*/
+/*  background-color: black;*/
+/*}*/
+
+/*.line {*/
+/*  width: 2px;*/
+/*  height: 20px;*/
+/*  background-color: black;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: 50%;*/
+/*}*/
 
 .vertical {
   width: 2px;
@@ -128,13 +187,13 @@
   border-color: transparent black transparent transparent;
 }
 
-.arrowContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+/*.arrowContainer {*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
 
 
 
