@@ -82,11 +82,11 @@
 .array_item,
 .array_item_marked {
     display: inline-block;
-    border: 1px solid var(--secondary-color);
+    border: 1px solid rgb(138, 98, 98);
     margin: 5px;
     padding: 15px 25px;
     transition: background-color 0.3s, transform 0.3s;
-    background-color: white;
+    background-color: rgba(233, 233, 233, 0.5);
     color: var(--text-color);
     font-size: 1.5em;
     border-radius: 10px;
@@ -142,7 +142,8 @@
 }
 
 .nonEmptyValue {
-    background-color: #e9d592; /* Color for non-empty values */
+    border: 1px solid var(--secondary-color);
+    background-color: #f5f5f5; /* Color for non-empty values */
 }
 
 .frontIndicator {
@@ -154,9 +155,9 @@
     content: "";
     position: absolute;
     top: -3px;  /* Move it up to cover the border */
-    left: 15%;  /* Start point of the border */
-    right: 15%; /* End point of the border */
-    border-top: 3px solid rgb(233, 233, 233);
+    left: 20%;  /* Start point of the border */
+    right: 20%; /* End point of the border */
+    border-top: 3px solid rgb(66, 141, 238);
 }
 
 .rearIndicator {
@@ -168,13 +169,10 @@
     content: "";
     position: absolute;
     bottom: -3px; /* Move it down to cover the border */
-    left: 15%;    /* Start point of the border */
-    right: 15%;   /* End point of the border */
-    border-bottom: 3px solid rgb(204, 204, 204);
+    left: 20%;    /* Start point of the border */
+    right: 20%;   /* End point of the border */
+    border-bottom: 3px solid rgb(230, 68, 68);
 }
-
-
-
 
 .queueItemContainer {
     display: inline-block; /* makes the div inline, but also allows for block-level children */

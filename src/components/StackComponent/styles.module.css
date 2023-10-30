@@ -82,11 +82,11 @@
 .array_item,
 .array_item_marked {
     display: block;
-    border: 1px solid var(--secondary-color);
+    border: 1px solid rgb(161, 111, 111);
     margin: 5px;
     padding: 15px 25px;
     transition: background-color 0.3s, transform 0.3s;
-    background-color: white;
+    background-color: rgba(233, 233, 233, 0.527);
     color: var(--text-color);
     font-size: 1.5em;
     border-radius: 10px;
@@ -141,4 +141,9 @@
     position: relative;
     max-height: calc(100vh - 200px); /* Set a maximum height, adjust as needed */
     overflow-y: auto; /* Add vertical scrollbar when content exceeds max height */
+}
+
+.nonEmptyValue {
+    border: 1px solid var(--secondary-color);
+    background-color: #f5f5f5; /* Color for non-empty values */
 }
