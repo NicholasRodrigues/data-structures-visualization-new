@@ -25,52 +25,57 @@ export default function StackPage() {
     const addElement = () => {
         const value = inputRef.current?.value;
         if (value) {
-            setDataArray(prevArray => [...prevArray, { value: value, index: prevArray.length }]);
-            (document.getElementById("dataInput") as HTMLInputElement).value = '';  // Limpar o campo de entrada
+            setDataArray(prevArray => [{ value: value, index: prevArray.length }, ...prevArray]);
             toast.success('Elemento adicionado com sucesso!');
         } else {
             toast.error('Por favor, insira um valor.');
         }
     };
 
+
     const removeElementByIndex = () => {
+        if (dataArray.length > 0) {
+            const removingIndex = 0; // Index of the element to be removed
+    
+            setRemovingIndices([removingIndex]); // Set removing index for animation
+    
+            setTimeout(() => {
+                setDataArray(prevArray => {
+                    // Remove the element at the specified index
+                    const newArray = prevArray.filter((item, idx) => idx !== removingIndex);
+                    return newArray;
+                });
+    
+                setRemovingIndices([]); // Clear removing index for animation
+                toast.success('Elemento removido com sucesso!');
+            }, 1500);
+        } else {
+            toast.error('Pilha vazia.');
+        }
+    };
 
-    const index = dataArray.length-1;
 
-    if (index >= 0 && index < dataArray.length) {
-        setRemovingIndices([...removingIndices, index]);
-        setTimeout(() => {
-            const newArray = dataArray.filter((item, idx) => idx !== index);
-            setDataArray(newArray.map((item, idx) => ({ ...item, index: idx })));
-            setRemovingIndices(prevIndices => prevIndices.filter(i => i !== index));
-            toast.success('Elemento removido com sucesso!');
-        }, 1500);
-    } else {
-        toast.error('Pilha vazia.');
-    }
-};
-
-
-const searchByValue = () => {
-    const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
-    const indices = dataArray.map((item, index) => item.value === value ? index : -1).filter(index => index !== -1);
-
-    if (indices.length > 0) {
-    toast.success("Value found at index/indices: " + indices.join(", "));
-    } else {
-    toast.error("Value not found.");
-    }
-};
-
-const searchByPosition = () => {
-    const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
-    if (position >= 0 && position < dataArray.length) {
-        let value = dataArray[position].value;
-        toast.success(`Value at position ${position} is ${value}.`);
-    } else {
-        toast.error(`Invalid position.`);
-    }
-};
+    const searchByValue = () => {
+        const value = (document.getElementById("searchValueInput") as HTMLInputElement).value;
+        const indices = dataArray.map((item, index) => item.value === value ? dataArray.length - 1 - index : -1).filter(index => index !== -1);
+    
+        if (indices.length > 0) {
+            toast.success("Value found at index/indices: " + indices.join(", "));
+        } else {
+            toast.error("Value not found.");
+        }
+    };
+    
+    const searchByPosition = () => {
+        const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
+        const reversedPosition = dataArray.length - 1 - position;
+        if (reversedPosition >= 0 && reversedPosition < dataArray.length) {
+            let value = dataArray[reversedPosition].value;
+            toast.success(`Value at position ${position} is ${value}.`);
+        } else {
+            toast.error(`Invalid position.`);
+        }
+    };
 const clearStack = () => {
     setDataArray([]);
     toast.success('Stack cleared successfully!');
@@ -82,9 +87,9 @@ const clearStack = () => {
 
         <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
             <input className={styles.input} type="text" id="dataInput" placeholder="Enter value" ref={inputRef}/>
-            <button className={styles.button} onClick={addElement}>Add</button>
+            <button className={styles.button} onClick={addElement}>push</button>
 
-            <Button description={"Remove"} onClick={removeElementByIndex} />
+            <Button description={"pop"} onClick={removeElementByIndex} />
 
             <input className={styles.input} type="text" id="searchValueInput" placeholder="Search by value" />
             <button className={styles.button} onClick={searchByValue}>Search Value</button>
