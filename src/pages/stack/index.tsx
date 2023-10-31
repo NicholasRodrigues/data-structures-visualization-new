@@ -86,7 +86,7 @@ export default function StackPage() {
             
             toast.success('Elemento removido com sucesso!');
         } else {
-            toast.error('No non-empty values found in the stack.');
+            toast.error('Stack is empty');
         }
     };
     
