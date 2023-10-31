@@ -4,6 +4,7 @@ import Tree from 'react-d3-tree';
 import { BinaryTreeNode } from "@/components/BinaryTreeComponent/props";
 import styles from "./styles.module.css";
 import { Button } from "@/components/Button";
+import { toast } from 'react-hot-toast';
 
 const NodeLabel = ({ nodeData }: any) => (
   <div className={styles.nodeC}>
@@ -29,7 +30,7 @@ const convertToD3TreeFormat = (node: BinaryTreeNode | null): any => {
 };
 
 const BinaryTreeComponent: React.FC = () => {
-    const [binaryTree, setBinaryTree] = useState<BinaryTreeNode | null>({ value: 0, left: null, right: null });
+    const [binaryTree, setBinaryTree] = useState<BinaryTreeNode | null>({ value: NaN, left: null, right: null });
     const [visitedNodes, setVisitedNodes] = useState<number[]>([]);
     const [targetNode, setTargetNode] = useState<number | null>(null);
     const [searchResult, setSearchResult] = useState<number | null | number[]>(null);
@@ -160,7 +161,12 @@ const DrawSearchPath: React.FC<{ path: number[] }> = ({ path }) => {
 const addNodeToTree = () => {
   const value = parseInt((document.getElementById('addNodeValue') as HTMLInputElement).value);
 
-  if (binaryTree?.value === 0) {
+  if (isNaN(value)) {
+    toast.error('Please enter a valid number');
+    return;
+  }
+
+  if (isNaN(binaryTree!.value) ) {
     // Se o nó raiz atual tem valor 0, substituímos ele com o novo valor
     // e marcamos esse nó como a raiz.
     setBinaryTree({ value, left: null, right: null, isRoot: true });
@@ -212,6 +218,14 @@ const removeNode = (value: number, node: BinaryTreeNode | null): BinaryTreeNode 
 
 const removeNodeFromTree = () => {
   const value = parseInt((document.getElementById('removeNodeValue') as HTMLInputElement).value);
+  if (binaryTree === null) {
+    toast.error('Tree is empty');
+    return;
+  }
+  if (isNaN(value)) {
+    toast.error('Please enter a valid number');
+    return;
+  }
   const rootCopy = deepCopy(binaryTree); // Faz uma cópia profunda do estado atual
   const newRoot = removeNode(value, rootCopy);
   setBinaryTree(newRoot); // Atualiza o estado com a nova árvore
@@ -226,6 +240,10 @@ const removeNodeFromTree = () => {
       const result = search(value, binaryTree);
       setSearchResult(result);
     }
+  };
+
+  const clearTree = () => {
+    setBinaryTree({ value: NaN, left: null, right: null });
   };
 
  const getCustomNodeShape = (nodeData: any) => {
@@ -269,6 +287,7 @@ const removeNodeFromTree = () => {
             <Button description={"In Order Traversal"} onClick={() => inOrderTraversal(binaryTree)} />
             <Button description={"Pre Order Traversal"} onClick={() => preOrderTraversal(binaryTree)} />
             <Button description={"Post Order Traversal"} onClick={() => postOrderTraversal(binaryTree)} />
+            <Button description={"Clear Tree"} onClick={clearTree} />
             </div>
 
             <div className={styles.titleContainer}>
@@ -287,11 +306,12 @@ const removeNodeFromTree = () => {
                       // leafNodeClassName={styles.node__leaf}
                       data={d3TreeData ? [d3TreeData] : []}
                       orientation="vertical"
-                      translate={{ x: 550, y: 200 }} nodeLabelComponent={{
+                      translate={{ x: 850, y: 200 }} nodeLabelComponent={{
                     render: <NodeLabel />,
                     foreignObjectWrapper: {
                         y: 24,
                     },
+                  
 
                 }}
                 nodeSvgShape={getCustomNodeShape}
