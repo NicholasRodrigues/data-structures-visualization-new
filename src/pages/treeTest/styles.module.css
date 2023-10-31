@@ -1,3 +1,81 @@
+.node__root > circle {
+  fill: #F44242;
+  color: #F44242/* Ou qualquer outro estilo que você queira aplicar */
+}
+.node__branch > circle {
+  fill: #4285f4;
+}
+
+.node__leaf > circle {
+  fill: green;
+  /* Let's also make the radius of leaf nodes larger */
+  r: 40;
+}
+
+.nodeC{
+  fill: green;
+}
+
+.searchPathNode {
+  position: relative;  /* Mudado de 'absolute' para 'relative' */
+  width: 50px;  /* Tamanho da bolinha */
+  height: 50px;  /* Tamanho da bolinha */
+  margin: 0 15px;  /* Espaçamento entre as bolinhas */
+  border-radius: 50%;
+  background-color: #F4D341;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lastSearchPathNode{
+  position: relative;  /* Mudado de 'absolute' para 'relative' */
+  width: 50px;  /* Tamanho da bolinha */
+  height: 50px;  /* Tamanho da bolinha */
+  margin: 0 15px;  /* Espaçamento entre as bolinhas */
+  border-radius: 50%;
+  background-color: #41F45D;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pathContainer {
+  position: relative;
+  height: 100px;  /* Ajuste a altura do contêiner conforme necessário */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pathNode {
+  position: relative;  /* Mudado de 'absolute' para 'relative' */
+  width: 50px;  /* Tamanho da bolinha */
+  height: 50px;  /* Tamanho da bolinha */
+  margin: 0 15px;  /* Espaçamento entre as bolinhas */
+  border-radius: 50%;
+  background-color: #4285f4;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.treeWrapper {
+  position: relative;
+  height: 100%;  /* Use 100% para preencher toda a altura disponível */
+  width: 100%;  /* Use 100% para preencher toda a largura disponível */
+  display: flex;
+  align-items: center;  /* Centraliza verticalmente */
+  justify-content: center;  /* Centraliza horizontalmente */
+}
+
+.tree {
+}
+
 @import url('https://fonts.google.com/specimen/Roboto');
 
 .container {
@@ -80,7 +158,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* CSS para o título */
 .h1 {
     margin: 0;
     font-size: 48px;
@@ -91,7 +168,6 @@
     transition: all 0.3s ease;
 }
 
-
 .titleWrapper:hover .h1 {
     text-shadow: 0px 3px 20px rgba(255, 255, 255, 0.7);
     transform: scale(1.05);
@@ -101,6 +177,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;  /* Adicionado para centralizar o título */
     margin-bottom: 20px;
     margin-top: 20px;
 }

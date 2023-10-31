@@ -4,6 +4,8 @@ import BinaryTreeComponent from '@/components/BinaryTreeComponent';
 import { BinaryTreeNode } from "@/components/BinaryTreeComponent/props";
 import { Button } from '@/components/Button';
 import { toast } from 'react-hot-toast';
+// @ts-ignore
+import Tree from 'react-d3-tree';
 
 export default function BinaryTreePage() {
     const [binaryTree, setBinaryTree] = useState<BinaryTreeNode | null>(null);
@@ -14,7 +16,28 @@ export default function BinaryTreePage() {
     const [visitedNodes, setVisitedNodes] = useState<number[]>([]);
     const [targetNode, setTargetNode] = useState<number | null>(null);
 
+interface D3Node {
+  name: string;
+  children?: D3Node[];
+}
+// @ts-ignore
+const convertToD3TreeFormat = (node: BinaryTreeNode | null): D3Node | null => {
+  if (!node) return null;
+  return {
+    name: node.value.toString(),
+    children: [
+      convertToD3TreeFormat(node.left),
+      convertToD3TreeFormat(node.right),
+    ].filter((n) => n) as D3Node[],
+  };
+};
+    const [d3TreeData, setD3TreeData] = useState<D3Node[] | null>(null);
 
+    useEffect(() => {
+    const newD3TreeData = convertToD3TreeFormat(binaryTree);
+    if(!newD3TreeData) return;
+    setD3TreeData([newD3TreeData]);
+  }, [binaryTree]);
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
@@ -209,9 +232,11 @@ const search = (value: number, node: BinaryTreeNode | null): number | null | num
                     <h1 className={styles.h1}>Binary Tree</h1>
                 </div>
             </div>
-            <div className={`${styles.treeContainer}`}>
-                <BinaryTreeComponent key={renderCount} root={binaryTree} visitedNodes={visitedNodes} targetNode={targetNode} />
-            </div>
+            <div className={styles.treeContainer}>
+        {d3TreeData && (
+          <Tree data={d3TreeData} />
+        )}
+      </div>
         </div>
     );
 }

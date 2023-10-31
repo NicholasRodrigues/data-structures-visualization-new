@@ -27,7 +27,10 @@ export default function StackPage() {
         if (sizeInput) {
             const size = parseInt(sizeInput.value, 10);
             if (!isNaN(size) && size > 0) {
-                const newArray: ArrayItem[] = Array.from({ length: size }, (_, index) => ({ value: '', index }));
+                const newArray: ArrayItem[] = Array.from({ length: size }, (_, index) => ({
+                    value: '',
+                    index: size - 1 - index, // Invert the index
+                }));
                 setDataArray(newArray);
                 setIsInitialized(true);
             } else {
@@ -37,6 +40,7 @@ export default function StackPage() {
             toast.error('Failed to access stack size input.');
         }
     };
+    
 
     const addElement = () => {
         if (!isInitialized) {
@@ -67,6 +71,10 @@ export default function StackPage() {
     };
     
     
+    
+    
+    
+    
 
 
     const removeElementByIndex = () => {
@@ -76,19 +84,20 @@ export default function StackPage() {
         }
     
         // Find the index of the first non-empty value
-        const nonEmptyIndex = dataArray.findIndex(item => item.value !== '');
+        const nonEmptyIndex = dataArray.findIndex((item) => item.value !== '');
     
         if (nonEmptyIndex !== -1) {
             const newArray = [...dataArray];
             newArray[nonEmptyIndex].value = ''; // Set the first non-empty value to be empty
-            
+    
             setDataArray(newArray);
-            
+    
             toast.success('Elemento removido com sucesso!');
         } else {
-            toast.error('Stack is empty');
+            toast.error('Stack is empty.');
         }
     };
+    
     
 
 
@@ -108,7 +117,12 @@ export default function StackPage() {
         const reversedPosition = dataArray.length - 1 - position;
         if (reversedPosition >= 0 && reversedPosition < dataArray.length) {
             let value = dataArray[reversedPosition].value;
+            if (value === ""){
+                toast.error(`No value at position ${position}`);
+            }
+            else{
             toast.success(`Value at position ${position} is ${value}.`);
+            }
         } else {
             toast.error(`Invalid position.`);
         }

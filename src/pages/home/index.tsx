@@ -36,9 +36,9 @@ export default function Home() {
         </div>
 
         <div className={styles.blockedlists} ref={addToRefs}>
-          <p><Link href="/stack" className ={styles.pilha}>Pilhas</Link></p>
-          <p><Link href="/queue" className ={styles.fila}>Filas</Link></p>
-          <p><a className ={styles.arvore}>Árvores Binárias</a></p>
+            <p><Link href="/stack" className ={styles.pilha}>Pilhas</Link></p>
+            <p><Link href="/queue" className ={styles.fila}>Filas</Link></p>
+            <p><Link href="/treeTest" className ={styles.arvore}>Árvores Binárias</Link></p>
         </div>
 
 

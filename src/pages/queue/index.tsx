@@ -117,7 +117,12 @@ const searchByPosition = () => {
     const position = parseInt((document.getElementById("searchPositionInput") as HTMLInputElement).value, 10);
     if (position >= 0 && position < dataArray.length) {
         let value = dataArray[position].value;
+        if (value === ""){
+            toast.error(`No value at position ${position}`);
+        }
+        else{
         toast.success(`Value at position ${position} is ${value}.`);
+        }
     } else {
         toast.error(`Invalid position.`);
     }
