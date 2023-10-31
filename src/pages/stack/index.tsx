@@ -10,49 +10,86 @@ import { Button } from '@/components/Button';
 export default function StackPage() {
     const [dataArray, setDataArray] = useState<ArrayItem[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+    const sizeRef = useRef<HTMLInputElement>(null); // Reference to the size input field
     const [itemFoundAtIndex, setItemFoundAtIndex] = useState<number | null>(null);
     const [removingIndices, setRemovingIndices] = useState<number[]>([]);
     const [sidebarActive, setSidebarActive] = useState(false);
     const successToast = () => toast.success('Success!');
     const errorToast = () => toast.error('Error!');
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
     };
 
-
-
-    const addElement = () => {
-        const value = inputRef.current?.value;
-        if (value) {
-            setDataArray(prevArray => [{ value: value, index: prevArray.length }, ...prevArray]);
-            toast.success('Elemento adicionado com sucesso!');
+    const initializeStack = () => {
+        const sizeInput = sizeRef.current;
+        if (sizeInput) {
+            const size = parseInt(sizeInput.value, 10);
+            if (!isNaN(size) && size > 0) {
+                const newArray: ArrayItem[] = Array.from({ length: size }, (_, index) => ({ value: '', index }));
+                setDataArray(newArray);
+                setIsInitialized(true);
+            } else {
+                toast.error('Please enter a valid stack size.');
+            }
         } else {
-            toast.error('Por favor, insira um valor.');
+            toast.error('Failed to access stack size input.');
         }
     };
+
+    const addElement = () => {
+        if (!isInitialized) {
+            toast.error('Please initialize the stack first.');
+            return;
+        }
+        const value = inputRef.current?.value;
+        if (!value) {
+            toast.error('Por favor, insira um valor.');
+            return;
+        }
+    
+        // Check for the last empty spot in the stack by iterating in reverse
+        const emptyIndex = dataArray.slice().reverse().findIndex(item => item.value === '');
+    
+        const actualIndex = emptyIndex !== -1 ? dataArray.length - 1 - emptyIndex : -1; // Convert to the actual index from the reversed array's index
+    
+        if (actualIndex !== -1) {
+            // Update the dataArray with the new value
+            const newArray = [...dataArray];
+            newArray[actualIndex].value = value;
+            setDataArray(newArray);
+            toast.success('Elemento adicionado com sucesso!');
+        } else {
+            // No empty spot found, stack is full
+            toast.error('Stack is full.');
+        }
+    };
+    
+    
 
 
     const removeElementByIndex = () => {
-        if (dataArray.length > 0) {
-            const removingIndex = 0; // Index of the element to be removed
+        if (!isInitialized) {
+            toast.error('Please initialize the stack first.');
+            return;
+        }
     
-            setRemovingIndices([removingIndex]); // Set removing index for animation
+        // Find the index of the first non-empty value
+        const nonEmptyIndex = dataArray.findIndex(item => item.value !== '');
     
-            setTimeout(() => {
-                setDataArray(prevArray => {
-                    // Remove the element at the specified index
-                    const newArray = prevArray.filter((item, idx) => idx !== removingIndex);
-                    return newArray;
-                });
-    
-                setRemovingIndices([]); // Clear removing index for animation
-                toast.success('Elemento removido com sucesso!');
-            }, 1500);
+        if (nonEmptyIndex !== -1) {
+            const newArray = [...dataArray];
+            newArray[nonEmptyIndex].value = ''; // Set the first non-empty value to be empty
+            
+            setDataArray(newArray);
+            
+            toast.success('Elemento removido com sucesso!');
         } else {
-            toast.error('Pilha vazia.');
+            toast.error('Stack is empty.');
         }
     };
+    
 
 
     const searchByValue = () => {
@@ -86,10 +123,12 @@ const clearStack = () => {
         <button className={styles.sidebarToggle} onClick={toggleSidebar}>☰</button>
 
         <div className={styles.sidebar + (sidebarActive ? ` ${styles.active}` : '')}>
+            <input className={styles.input} type="number" id="arraySizeInput" placeholder="Stack Size" ref={sizeRef} />
+            <button className={styles.button} onClick={initializeStack}>Initialize Stack</button>
             <input className={styles.input} type="text" id="dataInput" placeholder="Enter value" ref={inputRef}/>
-            <button className={styles.button} onClick={addElement}>push</button>
+            <button className={styles.button} onClick={addElement}>Push</button>
 
-            <Button description={"pop"} onClick={removeElementByIndex} />
+            <Button description={"Pop"} onClick={removeElementByIndex} />
 
             <input className={styles.input} type="text" id="searchValueInput" placeholder="Search by value" />
             <button className={styles.button} onClick={searchByValue}>Search Value</button>

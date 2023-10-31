@@ -11,6 +11,7 @@ export const StackComponent: React.FC<ArrayProps> = ({ dataArray, setRemovingInd
                     <span 
                         className={`
                             ${styles.array_item} 
+                            ${item.value !== '' ? styles.nonEmptyValue : ''}
                             ${removingIndices.includes(index) ? styles.array_item_marked : ''} 
                             ${itemFoundAtIndex === index ? styles.array_item_highlight : ''}
                         `}
